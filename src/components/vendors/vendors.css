@@ -1,0 +1,30 @@
+/* App.css */
+@import "intl-tel-input/build/css/intlTelInput.css";
+.iti__selected-country {
+    margin-top: 2px !important;
+    margin-inline: 0 !important;
+}
+.iti__arrow {
+    margin-right: var(--iti-arrow-padding);
+    margin-left: 0;
+    border-top-color: var(--text-lighter) !important;
+    border-bottom-color: var(--text-lighter) !important;
+}
+.iti {width: 100%;}
+.iti__dropdown-content {direction: ltr !important;}
+.iti__country ,.iti__search-input{font-size: 12px;}
+.iti input.iti__tel-input, .iti input.iti__tel-input[type=text], .iti input.iti__tel-input[type=tel] {
+    background-color: #dddddd40 !important;
+    /* color: var(--text-lighter); */
+}
+.iti input.iti__tel-input:focus,
+ .iti input.iti__tel-input[type=text]:focus,
+  .iti input.iti__tel-input[type=tel]:focus
+{
+    box-shadow: none;
+    outline: none;
+}
+.iti__dropdown-content {left: 0;right: unset;}
+@media(max-width:768px) {
+    .iti__dropdown-content {width: 230px !important;}
+}

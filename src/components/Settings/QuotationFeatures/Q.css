@@ -1,0 +1,17 @@
+.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {margin-top: 0;}
+.quill_ar .ql-editor {text-align: right;}
+.quill_ar .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+    left: 0;
+    right: unset;
+}
+.quill_ar .ql-editor {font-family: "Janna", sans-serif !important;}
+.quill_en .ql-editor {font-family: "Nunito", sans-serif !important;}
+.quill_ar .ql-editor ol {
+    padding-right: 1.5em;
+    padding-left: 0;
+}
+.quill_ar .ql-editor li > .ql-ui:before {
+    display: inline-block;
+    margin-right: -1.5em;
+    margin-left: .3em;
+}

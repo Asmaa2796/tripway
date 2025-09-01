@@ -1,0 +1,8 @@
+@media(max-width:567px) {
+    .doc-ul {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: scroll;
+}
+.doc-ul li {white-space: nowrap;}
+}
