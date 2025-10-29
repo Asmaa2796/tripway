@@ -3,7 +3,7 @@ import { useTitle } from "../../../context/TitleContext";
 import { useTranslation } from 'react-i18next';
 import { addDocumentType, clearState } from "../../../redux/Slices/DocumentTypeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const AddDocumentType = () => {
   const {t,i18n} = useTranslation('global');
@@ -15,6 +15,10 @@ const AddDocumentType = () => {
   });
   useEffect(() => {
     setTitle(`${t("sidenav.documentType")} > ${t('btns.add')}`);
+    document.title = `${t("sidenav.documentType")} > ${t('btns.add')}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
     const { isLoading, error,success } = useSelector(
@@ -55,6 +59,16 @@ const AddDocumentType = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/document_type" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

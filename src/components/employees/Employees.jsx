@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 import {
   clearState,
   deleteEmployees,
@@ -27,7 +29,7 @@ const Employees = () => {
   const [isFiltering, setIsFiltering] = useState(false);
   const [activeBranchTab, setActiveBranchTab] = useState("all");
 
-  const { employees, isLoading, success,error } = useSelector(
+  const { employees, isLoading, success, error } = useSelector(
     (state) => state.employees
   );
   const { managements, jobs, branches, roles } = useSelector(
@@ -151,6 +153,10 @@ const Employees = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.employees"));
+    document.title = t("sidenav.employees");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -163,7 +169,7 @@ const Employees = () => {
     dispatch(fetchManagements());
     dispatch(fetchBranches());
     dispatch(fetchRoles());
-  }, [dispatch, t, i18n.language, success,error]);
+  }, [dispatch, t, i18n.language, success, error]);
 
   useEffect(() => {
     if (selectedManagements.length) {
@@ -173,24 +179,23 @@ const Employees = () => {
   }, [selectedManagements]);
 
   const handleDelete = (e, id) => {
-  e.preventDefault();
-  if (window.confirm(t("labels.confirmDelete"))) {
-    dispatch(deleteEmployees({ user_id: id }));
-  }
-};
+    e.preventDefault();
+    if (window.confirm(t("labels.confirmDelete"))) {
+      dispatch(deleteEmployees({ user_id: id }));
+    }
+  };
   useEffect(() => {
-  if (success) {
-    toast.success(t("labels.deleteSuccess"));
-    dispatch(fetchEmployees());
-    dispatch(clearState());
-  }
+    if (success) {
+      toast.success(t("labels.deleteSuccess"));
+      dispatch(fetchEmployees());
+      dispatch(clearState());
+    }
 
-  if (error) {
-    toast.error(t("labels.deleteFail"));
-    dispatch(clearState());
-  }
-  
-}, [success, error, dispatch, t]);
+    if (error) {
+      toast.error(t("labels.deleteFail"));
+      dispatch(clearState());
+    }
+  }, [success, error, dispatch, t]);
 
   return (
     <>
@@ -378,77 +383,101 @@ const Employees = () => {
         {isLoading ? (
           <TableLoader />
         ) : employeeList && employeeList.length > 0 ? (
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>{t("labels.employmentNumber")}</th>
-                  <th>{t("labels.name")}</th>
-                  <th>{t("labels.idNumber")}</th>
-                  <th>{t("labels.branchName")}</th>
-                  <th>{t("labels.managementName")}</th>
-                  <th>{t("labels.jobName")}</th>
-                  <th>{t("labels.phone")}</th>
-                  <th>{t("labels.email")}</th>
-                  <th>{t("labels.status")}</th>
-                  <th>{t("labels.employmentDate")}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((tr, index) => (
-                  <tr key={tr.id || index}>
-                    <td className="sub-text">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
-                    </td>
-
-                    <td className="sub-text">
-                      {tr?.employment_number || "--"}
-                    </td>
-                    <td className="sub-text">{tr?.name || "--"}</td>
-                    <td className="sub-text">{tr?.id_number || "--"}</td>
-                    <td className="sub-text">{tr?.branch_name || "--"}</td>
-                    <td className="sub-text">{tr?.management_name || "--"}</td>
-                    <td className="sub-text">{tr?.job_name || "--"}</td>
-                    <td className="sub-text">{tr?.phone || "--"}</td>
-                    <td className="sub-text">{tr?.email || "--"}</td>
-                    <td
-                      className={
-                        tr.status === true ? "text-color" : "highlight-text"
-                      }
-                    >
-                      {tr.status === true
-                        ? t("labels.active")
-                        : t("labels.inactive")}
-                    </td>
-                    <td className="sub-text">{tr?.employment_date || "--"}</td>
-
-                    <td className="d-flex justify-content-center">
-                      <Link className="btn" to={`/show_employee/${tr.id}`}>
-                        <span className="text-success px-0 mx-1 mb-0">
-                          <i className="bi bi-eye"></i>
-                        </span>
-                      </Link>
-                      <Link className="btn" to={`/edit_employee/${tr.id}`}>
-                        <span className="text-color px-0 mx-1 mb-0">
-                          <i className="bi bi-pen"></i>
-                        </span>
-                      </Link>
-                      <button
-                        className="btn"
-                        onClick={(e) => handleDelete(e, tr.id)}
-                      >
-                        <span className="text-danger px-0 mx-1 mb-0">
-                          <i className="bi bi-trash"></i>
-                        </span>
-                      </button>
-                    </td>
+          <>
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t("labels.employmentNumber")}</th>
+                    <th>{t("labels.name")}</th>
+                    <th>{t("labels.idNumber")}</th>
+                    <th>{t("labels.branchName")}</th>
+                    <th>{t("labels.managementName")}</th>
+                    <th>{t("labels.jobName")}</th>
+                    <th>{t("labels.phone")}</th>
+                    <th>{t("labels.email")}</th>
+                    <th>{t("labels.status")}</th>
+                    <th>{t("labels.employmentDate")}</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {paginatedData.map((tr, index) => (
+                    <tr key={tr.id || index}>
+                      <td className="sub-text">
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </td>
+
+                      <td className="sub-text">
+                        {tr?.employment_number || "--"}
+                      </td>
+                      <td className="sub-text">{tr?.name || "--"}</td>
+                      <td className="sub-text">{tr?.id_number || "--"}</td>
+                      <td className="sub-text">{tr?.branch_name || "--"}</td>
+                      <td className="sub-text">
+                        {tr?.management_name || "--"}
+                      </td>
+                      <td className="sub-text">{tr?.job_name || "--"}</td>
+                      <td className="sub-text">{tr?.phone || "--"}</td>
+                      <td className="sub-text">{tr?.email || "--"}</td>
+                      <td
+                        className={
+                          tr.status === true ? "text-color" : "highlight-text"
+                        }
+                      >
+                        {tr.status === true
+                          ? t("labels.active")
+                          : t("labels.inactive")}
+                      </td>
+                      <td className="sub-text">
+                        {tr?.employment_date || "--"}
+                      </td>
+
+                      <td className="d-flex justify-content-center">
+                        <Link
+                          className="btn mx-1 px-0"
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.view")}
+                          to={`/show_employee/${tr.id}`}
+                        >
+                          <span className="highlight-green px-0 mx-1 mb-0">
+                            <i className="bi bi-eye"></i>
+                          </span>
+                        </Link>
+                        <Link
+                          className="btn mx-1 px-0"
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.edit")}
+                          to={`/edit_employee/${tr.id}`}
+                        >
+                          <span className="text-color px-0 mx-1 mb-0">
+                            <i className="bi bi-pen"></i>
+                          </span>
+                        </Link>
+                        <button
+                          className="btn mx-1 px-0"
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.delete")}
+                          onClick={(e) => handleDelete(e, tr.id)}
+                        >
+                          <span className="text-danger px-0 mx-1 mb-0">
+                            <i className="bi bi-trash"></i>
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Tooltip
+              id="global-tooltip"
+              place="top"
+              className="custom-tooltip"
+              style={{ fontSize: "11px", fontWeight: "bold" }}
+            />
+          </>
         ) : (
           <div
             className="no_data text-center rounded my-2 p-3"

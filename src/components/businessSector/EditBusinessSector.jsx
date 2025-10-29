@@ -17,7 +17,7 @@ import {
   clearState,
 } from "../../redux/Slices/BusinessSectorSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const EditBusinessSector = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -54,6 +54,10 @@ const EditBusinessSector = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.businessList")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.businessList")} > ${t("labels.edit")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     dispatch(fetchCompanies());
@@ -246,6 +250,11 @@ const EditBusinessSector = () => {
   }, [success, error, navigate, dispatch, t]);
   return (
     <>
+     <div style={{textAlign:i18n.language === "ar"?"left":"right"}}>
+        <Link to="/business_sector" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")} <i className={`bi bi-arrow-${i18n.language === "ar"?"left":"right"} text-xs`}></i>
+        </Link>
+      </div>
       {/* form */}
       <form className="table_form form-style" onSubmit={handleSubmit}>
         {/* Nav tabs */}

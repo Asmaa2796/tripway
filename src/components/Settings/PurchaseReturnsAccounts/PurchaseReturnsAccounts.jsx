@@ -24,6 +24,10 @@ const PurchaseReturnsAccounts = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.purchase_returns_accounts"));
+    document.title = t("sidenav.purchase_returns_accounts");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

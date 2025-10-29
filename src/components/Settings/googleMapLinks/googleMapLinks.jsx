@@ -27,7 +27,11 @@ const GoogleMapLinks = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.googleMapLinks")}`);
+    document.title = `${t("sidenav.googleMapLinks")}`;
     dispatch(fetchGoogleMapLinks());
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     if (record) {

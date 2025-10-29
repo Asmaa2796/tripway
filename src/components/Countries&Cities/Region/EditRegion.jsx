@@ -8,11 +8,11 @@ import {
   updateRegion,
 } from "../../../redux/Slices/RegionSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditRegion = () => {
   const { id } = useParams();
-  const { t } = useTranslation("global");
+  const { t,i18n } = useTranslation("global");
   const { setTitle } = useTitle();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +39,11 @@ const EditRegion = () => {
   // Set page title
   useEffect(() => {
     setTitle(`${t("sidenav.regions")} > ${t("labels.editRegion")}`);
-  }, [t]);
+    document.title = `${t("sidenav.regions")} > ${t("labels.editRegion")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [t,i18n.language,setTitle]);
 
   // Fetch the region record on first load
   useEffect(() => {
@@ -75,43 +79,55 @@ const EditRegion = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-      <div className="row align-items-center">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-          <label className="text-light">{t("labels.nameArabic")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_ar"
-            value={formData.name_ar}
-            onChange={handleChange}
-            placeholder={t("labels.nameArabic")}
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-          <label className="text-light">{t("labels.nameEnglish")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_en"
-            value={formData.name_en}
-            onChange={handleChange}
-            placeholder={t("labels.nameEnglish")}
-            required
-          />
-        </div>
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/regions" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
       </div>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+            <label className="text-light">{t("labels.nameArabic")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_ar"
+              value={formData.name_ar}
+              onChange={handleChange}
+              placeholder={t("labels.nameArabic")}
+              required
+            />
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+            <label className="text-light">{t("labels.nameEnglish")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_en"
+              value={formData.name_en}
+              onChange={handleChange}
+              placeholder={t("labels.nameEnglish")}
+              required
+            />
+          </div>
+        </div>
 
-      <div className="text-center">
-        <button className="btn show_all" disabled={isLoading}>
-          {isLoading ? t("labels.loading") : t("btns.saveChanges")}
-        </button>
-      </div>
-    </form>
+        <div className="text-center">
+          <button className="btn show_all" disabled={isLoading}>
+            {isLoading ? t("labels.loading") : t("btns.saveChanges")}
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 

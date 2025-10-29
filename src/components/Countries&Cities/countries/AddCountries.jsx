@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addCountry, clearState } from "../../../redux/Slices/CountriesSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddCountries = () => {
   const { t, i18n } = useTranslation("global");
@@ -23,6 +23,10 @@ const AddCountries = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.countries")} > ${t("labels.addCountry")}`);
+    document.title = `${t("sidenav.countries")} > ${t("labels.addCountry")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -64,6 +68,16 @@ const AddCountries = () => {
 
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/countries" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -116,7 +130,7 @@ const AddCountries = () => {
           </div>
         </div>
 
-         <div className="text-center">
+        <div className="text-center">
           <button className="btn show_all" disabled={isLoading}>
             {isLoading ? t("labels.loading") : t("btns.add")}
           </button>

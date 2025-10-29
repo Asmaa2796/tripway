@@ -66,7 +66,7 @@ const Maintenance = () => {
             <button className="btn show_all">{t("btns.viewAll")}</button>
           </div>
           <div className="col-xl-3 col-lg-3 col-md-6 col-12 text-center">
-            <Link to="">
+            <Link to="/add_maintenance_request">
               <span
                 className="btn btn-warning btn-sm text-sm px-3"
                 style={{ marginTop: "45px" }}

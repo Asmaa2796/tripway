@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTitle } from "../../context/TitleContext";
 import { Link } from "react-router-dom";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 import { useTranslation } from "react-i18next";
 import {
   deleteBusinessSector,
@@ -28,6 +30,10 @@ const BusinessSector = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.businessList"));
+    document.title = t("sidenav.businessList");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     dispatch(fetchBusinessSectors());
@@ -172,140 +178,165 @@ const BusinessSector = () => {
         {isLoading ? (
           <TableLoader />
         ) : businessSector && businessSector.length >= 1 ? (
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col" className="text-lighter">
-                    #
-                  </th>
-                  <th scope="col" className="text-lighter">
-                    {t("labels.clientID")}
-                  </th>
-                  <th scope="col" className="text-lighter">
-                    {t("labels.legal_name")}
-                  </th>
-                  <th scope="col" className="text-lighter">
-                    {t("labels.currentBalance")}
-                  </th>
-                  <th scope="col" className="text-lighter">
-                    {t("labels.rating")}
-                  </th>
-                  <th scope="col" className="text-lighter">
-                    {t("labels.status")}
-                  </th>
-                  <th className="text-lighter">
-                    {t("labels.key_account_name")}
-                  </th>
-                  <th className="text-lighter">
-                    {t("labels.operation_supervisor_name")}
-                  </th>
-                  <th className="text-lighter">
-                    {t("labels.receiving_responsible_name")}
-                  </th>
-                  <th className="text-lighter">
-                    {t("labels.trip_orders_count")}
-                  </th>
-                  <th className="text-lighter">{t("labels.created_at")}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentRows?.map((tr, index) => (
-                  <tr key={tr.id || index}>
-                    <td className="sub-text">{tr?.id}</td>
-                    <td className="sub-text">{tr?.customer_id}</td>
-                    <td className="text-color">{tr?.legal_name}</td>
-                    <td className="sub-text">$ {tr?.current_balance}</td>
-                    <td>
-                      {[...Array(5)].map((_, i) => (
-                        <i
-                          key={i}
-                          className={`bi bi-star${
-                            i < tr.rate ? "-fill text-warning" : ""
-                          }`}
-                        ></i>
-                      ))}
-                    </td>
-
-                    <td
-                      className={`${
-                        tr.status === "active" ? "highlight-green" : tr.status === "inactive" ? "text-color" : "text-warning"
-                      }`}
-                    >
-                      {tr.status === "active"
-                        ? t("labels.active")
-                        : tr.status === "inactive" ? t("labels.inactive") : t("labels.pending")
-                      }
-                    </td>
-                    <td
-                      className={`${
-                        tr?.key_account_name ? "text-color" : "text-dark"
-                      }`}
-                    >
-                      {tr?.key_account_name
-                        ? tr?.key_account_name
-                        : t("labels.nothing")}
-                    </td>
-                    <td
-                      className={`${
-                        tr?.operation_supervisor_name
-                          ? "text-color"
-                          : "text-dark"
-                      }`}
-                    >
-                      {tr?.operation_supervisor_name
-                        ? tr?.operation_supervisor_name
-                        : t("labels.nothing")}
-                    </td>
-                    <td
-                      className={`${
-                        tr?.receiving_responsible_name
-                          ? "text-color"
-                          : "text-dark"
-                      }`}
-                    >
-                      {tr?.receiving_responsible_name
-                        ? tr?.receiving_responsible_name
-                        : t("labels.nothing")}
-                    </td>
-                    <td
-                      className={`${
-                        tr?.trip_orders_count ? "text-color" : "text-dark"
-                      }`}
-                    >
-                      {tr?.trip_orders_count
-                        ? tr?.trip_orders_count
-                        : t("labels.nothing")}
-                    </td>
-                    <td className="sub-text" style={{ direction: "ltr" }}>
-                      {tr?.created_at}
-                    </td>
-                    <td className="d-flex justify-content-center">
-                      <Link to={`/business_sector/view/${tr.id}`} className="btn px-0 mx-1">
-                        <span className="highlight-green px-1 mx-1 mb-0">
-                          <i className="bi bi-eye"></i>
-                        </span>
-                      </Link>
-                      <Link to={`/business_sector/edit/${tr.id}`} className="btn px-0 mx-1">
-                        <span className="text-color px-1 mx-1 mb-0">
-                          <i className="bi bi-pen"></i>
-                        </span>
-                      </Link>
-                      <button
-                        className="btn px-0 mx-1"
-                        onClick={(e) => handleDelete(e, tr.id)}
-                      >
-                        <span className="text-danger px-0 mx-1 mb-0">
-                          <i className="bi bi-trash"></i>
-                        </span>
-                      </button>
-                    </td>
+          <>
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col" className="text-lighter">
+                      #
+                    </th>
+                    <th scope="col" className="text-lighter">
+                      {t("labels.clientID")}
+                    </th>
+                    <th scope="col" className="text-lighter">
+                      {t("labels.legal_name")}
+                    </th>
+                    <th scope="col" className="text-lighter">
+                      {t("labels.currentBalance")}
+                    </th>
+                    <th scope="col" className="text-lighter">
+                      {t("labels.rating")}
+                    </th>
+                    <th scope="col" className="text-lighter">
+                      {t("labels.status")}
+                    </th>
+                    <th className="text-lighter">
+                      {t("labels.key_account_name")}
+                    </th>
+                    <th className="text-lighter">
+                      {t("labels.operation_supervisor_name")}
+                    </th>
+                    <th className="text-lighter">
+                      {t("labels.receiving_responsible_name")}
+                    </th>
+                    <th className="text-lighter">
+                      {t("labels.trip_orders_count")}
+                    </th>
+                    <th className="text-lighter">{t("labels.created_at")}</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {currentRows?.map((tr, index) => (
+                    <tr key={tr.id || index}>
+                      <td className="sub-text">{tr?.id}</td>
+                      <td className="sub-text">{tr?.customer_id}</td>
+                      <td className="text-color">{tr?.legal_name}</td>
+                      <td className="sub-text">$ {tr?.current_balance}</td>
+                      <td>
+                        {[...Array(5)].map((_, i) => (
+                          <i
+                            key={i}
+                            className={`bi bi-star${
+                              i < tr.rate ? "-fill text-warning" : ""
+                            }`}
+                          ></i>
+                        ))}
+                      </td>
+
+                      <td
+                        className={`${
+                          tr.status === "active"
+                            ? "highlight-green"
+                            : tr.status === "inactive"
+                            ? "text-color"
+                            : "text-warning"
+                        }`}
+                      >
+                        {tr.status === "active"
+                          ? t("labels.active")
+                          : tr.status === "inactive"
+                          ? t("labels.inactive")
+                          : t("labels.pending")}
+                      </td>
+                      <td
+                        className={`${
+                          tr?.key_account_name ? "text-color" : "text-dark"
+                        }`}
+                      >
+                        {tr?.key_account_name
+                          ? tr?.key_account_name
+                          : t("labels.nothing")}
+                      </td>
+                      <td
+                        className={`${
+                          tr?.operation_supervisor_name
+                            ? "text-color"
+                            : "text-dark"
+                        }`}
+                      >
+                        {tr?.operation_supervisor_name
+                          ? tr?.operation_supervisor_name
+                          : t("labels.nothing")}
+                      </td>
+                      <td
+                        className={`${
+                          tr?.receiving_responsible_name
+                            ? "text-color"
+                            : "text-dark"
+                        }`}
+                      >
+                        {tr?.receiving_responsible_name
+                          ? tr?.receiving_responsible_name
+                          : t("labels.nothing")}
+                      </td>
+                      <td
+                        className={`${
+                          tr?.trip_orders_count ? "text-color" : "text-dark"
+                        }`}
+                      >
+                        {tr?.trip_orders_count
+                          ? tr?.trip_orders_count
+                          : t("labels.nothing")}
+                      </td>
+                      <td className="sub-text" style={{ direction: "ltr" }}>
+                        {tr?.created_at}
+                      </td>
+                      <td className="d-flex justify-content-center">
+                        <Link
+                          to={`/business_sector/view/${tr.id}`}
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.view")}
+                          className="btn px-0 mx-1"
+                        >
+                          <span className="highlight-green px-1 mx-1 mb-0">
+                            <i className="bi bi-eye"></i>
+                          </span>
+                        </Link>
+                        <Link
+                          to={`/business_sector/edit/${tr.id}`}
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.edit")}
+                          className="btn px-0 mx-1"
+                        >
+                          <span className="text-color px-1 mx-1 mb-0">
+                            <i className="bi bi-pen"></i>
+                          </span>
+                        </Link>
+                        <button
+                          className="btn px-0 mx-1"
+                          data-tooltip-id="global-tooltip"
+                          data-tooltip-content={t("labels.delete")}
+                          onClick={(e) => handleDelete(e, tr.id)}
+                        >
+                          <span className="text-danger px-0 mx-1 mb-0">
+                            <i className="bi bi-trash"></i>
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Tooltip
+              id="global-tooltip"
+              place="top"
+              className="custom-tooltip"
+              style={{ fontSize: "11px", fontWeight: "bold" }}
+            />
+          </>
         ) : (
           <div
             className="no_data text-center rounded my-2 p-3"

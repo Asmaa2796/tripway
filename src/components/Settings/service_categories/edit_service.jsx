@@ -6,7 +6,7 @@ import {
   clearState,
 } from "../../../redux/Slices/ServiceCategoriesSlice";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "../../../context/TitleContext";
@@ -18,7 +18,11 @@ const AddServiceCategories = () => {
   const navigate = useNavigate();
   useEffect(() => {
     setTitle(`${t("labels.serviceCategories")} > ${t("labels.edit")}`);
+    document.title = `${t("labels.serviceCategories")} > ${t("labels.edit")}`;
     dispatch(serviceCategoriesRecord(id));
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const [formData, setFormData] = useState({
     name_ar: "",
@@ -57,6 +61,20 @@ const AddServiceCategories = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/service_categories"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <div className="add-service-category form-style">
       <form onSubmit={handleUpdateCategory} className="bg-white p-4 rounded">
         <div className="form-group">
@@ -97,6 +115,7 @@ const AddServiceCategories = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

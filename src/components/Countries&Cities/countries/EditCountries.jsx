@@ -8,7 +8,7 @@ import {
   updateCountry,
 } from "../../../redux/Slices/CountriesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditCountries = () => {
   const { id } = useParams();
@@ -43,7 +43,11 @@ const EditCountries = () => {
   // Set page title
   useEffect(() => {
     setTitle(`${t("sidenav.countries")} > ${t("labels.editCountry")}`);
-  }, [t]);
+    document.title = `${t("sidenav.countries")} > ${t("labels.editCountry")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [t,i18n.language]);
 
   // Fetch the country record on first load
   useEffect(() => {
@@ -79,6 +83,17 @@ const EditCountries = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/countries" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <form
       onSubmit={handleSubmit}
       className="table_form form-style my-3 p-3 rounded bg-white"
@@ -140,6 +155,7 @@ const EditCountries = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

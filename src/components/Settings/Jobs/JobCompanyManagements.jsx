@@ -30,6 +30,10 @@ console.log(job_company_managements);
 
   useEffect(() => {
     setTitle(t("sidenav.jobs"));
+    document.title = t("sidenav.jobs");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -55,7 +59,6 @@ console.log(job_company_managements);
             className="btn btn-success btn-sm text-sm px-3"
             style={{
               background: "var(--green-color)",
-              marginTop: "45px",
               fontWeight: "bold",
               fontSize: "14px",
             }}

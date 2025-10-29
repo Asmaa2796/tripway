@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useTitle } from "../../context/TitleContext";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { businessSectorRecord } from "../../redux/Slices/BusinessSectorSlice";
@@ -15,11 +15,21 @@ const ShowBusinessSector = () => {
 
   useEffect(() => {
     setTitle(`${t("labels.businessSector")} > ${t("labels.view")}`);
+    document.title = `${t("labels.businessSector")} > ${t("labels.view")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     dispatch(businessSectorRecord(id));
   }, [id, i18n.language]);
   return (
+    <>
+     <div style={{textAlign:i18n.language === "ar"?"left":"right"}}>
+        <Link to="/business_sector" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")} <i className={`bi bi-arrow-${i18n.language === "ar"?"left":"right"} text-xs`}></i>
+        </Link>
+      </div>
     <div style={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
       <div className="div-bg">
         <h5 className="fw-bold text-md my-3">
@@ -328,6 +338,7 @@ const ShowBusinessSector = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

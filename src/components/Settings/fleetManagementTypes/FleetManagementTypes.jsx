@@ -28,7 +28,7 @@ const FleetManagementTypes = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.fleetManagementTypes"));
-  }, [setTitle, t]);
+  }, [setTitle, t,i18n.language]);
 
   useEffect(() => {
     dispatch(clearState());
@@ -158,7 +158,7 @@ const FleetManagementTypes = () => {
           </ul>
         </div>
         <div className="col-xl-3 col-lg-3 col-md-3 col-12 text-center">
-          <Link to="/add_fleet_request_type">
+          <Link to="/add_fleet_management_type">
             <span
               className="btn btn-success btn-sm text-sm px-3"
               style={{
@@ -218,7 +218,7 @@ const FleetManagementTypes = () => {
                           <>
                             <Link
                               className="btn"
-                              to={`/edit_fleet_request_type/${tr.id}`}
+                              to={`/edit_fleet_management_type/${tr.id}`}
                             >
                               <span className="text-color px-0 mx-1 mb-0">
                                 <i className="bi bi-pen"></i>

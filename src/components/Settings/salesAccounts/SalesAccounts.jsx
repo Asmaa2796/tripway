@@ -22,7 +22,11 @@ const SalesAccounts = () => {
   );
 
   useEffect(() => {
-    setTitle(t("sidenav.salesAccounts"));
+    setTitle(t("sidenav.salesAccounts"));;
+    document.title = t("sidenav.salesAccounts")
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

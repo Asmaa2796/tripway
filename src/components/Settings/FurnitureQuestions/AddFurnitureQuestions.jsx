@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addFurnitureQuestions, clearState } from "../../../redux/Slices/FurnitureQuestionsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddFurnitureQuestions = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -21,6 +21,10 @@ const AddFurnitureQuestions = () => {
   const { isLoading, error, success } = useSelector((state) => state.furniture_questions);
   useEffect(() => {
     setTitle(`${t("sidenav.furniture_questions")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.furniture_questions")} > ${t("btns.add")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,6 +71,19 @@ const handleSubmit = (e) => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/furniture_questions"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -102,7 +119,7 @@ const handleSubmit = (e) => {
             />
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-            <br/>
+            <br />
             <h5 className="fw-bold text-md main-color">
               <i className="bi bi-chat-dots"></i> {t("labels.answer")}
             </h5>
@@ -110,43 +127,44 @@ const handleSubmit = (e) => {
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             <label className="text-light">{t("labels.answer_ar")}</label>
-            <input 
-            type="text"
+            <input
+              type="text"
               className="input-bg"
               name="answer_ar"
               value={formData.answer_ar}
               onChange={handleChange}
               required
-
-              />
+            />
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             <label className="text-light">{t("labels.answer_en")}</label>
-            <input 
-            type="text"
+            <input
+              type="text"
               className="input-bg"
               name="answer_en"
               value={formData.answer_en}
               onChange={handleChange}
               required
-              />
+            />
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             <label className="text-light">{t("labels.type")}</label>
-            <select 
+            <select
               className="input-bg w-100"
               name="property_type"
               value={formData.property_type}
               onChange={handleChange}
               required
-              >
-                <option value="" disabled>{t("labels.selectItem")}</option>
-                <option value="apartment">{t("labels.apartment")}</option>
-                <option value="villa">{t("labels.villa")}</option>
-                <option value="house">{t("labels.house")}</option>
-                <option value="shop">{t("labels.shop")}</option>
-                <option value="office">{t("labels.office")}</option>
-              </select>
+            >
+              <option value="" disabled>
+                {t("labels.selectItem")}
+              </option>
+              <option value="apartment">{t("labels.apartment")}</option>
+              <option value="villa">{t("labels.villa")}</option>
+              <option value="house">{t("labels.house")}</option>
+              <option value="shop">{t("labels.shop")}</option>
+              <option value="office">{t("labels.office")}</option>
+            </select>
           </div>
         </div>
 

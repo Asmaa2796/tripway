@@ -7,7 +7,7 @@ import {
   clearState,
 } from "../../../redux/Slices/OfficeDocumentTypeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const AddOfficeDocType = () => {
   const { t, i18n } = useTranslation("global");
@@ -20,6 +20,10 @@ const AddOfficeDocType = () => {
   });
   useEffect(() => {
     setTitle(`${t("sidenav.officeDocumentType")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.officeDocumentType")} > ${t("btns.add")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { isLoading, error, success } = useSelector((state) => state.office_document_types);
@@ -54,6 +58,19 @@ const AddOfficeDocType = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/office_document_type"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

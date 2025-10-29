@@ -33,6 +33,10 @@ const FileArchiveTypes = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.fileArchiveTypes"));
+    document.title = t("sidenav.fileArchiveTypes");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -58,7 +62,6 @@ const FileArchiveTypes = () => {
             className="btn btn-success btn-sm text-sm px-3"
             style={{
               background: "var(--green-color)",
-              marginTop: "45px",
               fontWeight: "bold",
               fontSize: "14px",
             }}

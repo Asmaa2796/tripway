@@ -20,9 +20,12 @@ const ShowCountries = () => {
     (state) => state.countries
   );
 
-
   useEffect(() => {
     setTitle(t("sidenav.countries"));
+    document.title = t("sidenav.countries");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,7 +52,6 @@ const ShowCountries = () => {
     if (page < 1 || page > (pagination?.last_page || 1)) return;
     setCurrentPage(page);
   };
-
 
   return (
     <>
@@ -97,74 +99,84 @@ const ShowCountries = () => {
                         </span>
                       </Link>
                       <button
-                          className="btn"
-                          onClick={(e) => handleDelete(e, tr.id)}
-                        >
-                          <span className="text-danger px-1 mx-1 mb-0">
-                            <i className="bi bi-trash"></i>
-                          </span>
-                        </button>
+                        className="btn"
+                        onClick={(e) => handleDelete(e, tr.id)}
+                      >
+                        <span className="text-danger px-1 mx-1 mb-0">
+                          <i className="bi bi-trash"></i>
+                        </span>
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <nav aria-label="Page navigation">
-  <ul className="pagination justify-content-center">
-    {/* Prev */}
-    <li className={`page-item ${!pagination?.prev_page_url ? "disabled" : ""}`}>
-      <a
-        className="page-link text-center"
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          handlePageChange(currentPage - 1);
-          e.currentTarget.blur();
-        }}
-      >
-        <i className="fa fa-caret-right"></i>
-      </a>
-    </li>
+              <ul className="pagination justify-content-center">
+                {/* Prev */}
+                <li
+                  className={`page-item ${
+                    !pagination?.prev_page_url ? "disabled" : ""
+                  }`}
+                >
+                  <a
+                    className="page-link text-center"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage - 1);
+                      e.currentTarget.blur();
+                    }}
+                  >
+                    <i className="fa fa-caret-right"></i>
+                  </a>
+                </li>
 
-    {/* Page numbers */}
-    {Array.from({ length: pagination?.last_page || 1 }, (_, index) => (
-      <li
-        key={index}
-        className={`page-item ${
-          pagination?.current_page === index + 1 ? "active" : ""
-        }`}
-      >
-        <a
-          className="page-link"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            handlePageChange(index + 1);
-            e.currentTarget.blur();
-          }}
-        >
-          {index + 1}
-        </a>
-      </li>
-    ))}
+                {/* Page numbers */}
+                {Array.from(
+                  { length: pagination?.last_page || 1 },
+                  (_, index) => (
+                    <li
+                      key={index}
+                      className={`page-item ${
+                        pagination?.current_page === index + 1 ? "active" : ""
+                      }`}
+                    >
+                      <a
+                        className="page-link"
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(index + 1);
+                          e.currentTarget.blur();
+                        }}
+                      >
+                        {index + 1}
+                      </a>
+                    </li>
+                  )
+                )}
 
-    {/* Next */}
-    <li className={`page-item ${!pagination?.next_page_url ? "disabled" : ""}`}>
-      <a
-        className="page-link text-center"
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          handlePageChange(currentPage + 1);
-          e.currentTarget.blur();
-        }}
-      >
-        <i className="fa fa-caret-left"></i>
-      </a>
-    </li>
-  </ul>
-</nav>
-
+                {/* Next */}
+                <li
+                  className={`page-item ${
+                    !pagination?.next_page_url ? "disabled" : ""
+                  }`}
+                >
+                  <a
+                    className="page-link text-center"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage + 1);
+                      e.currentTarget.blur();
+                    }}
+                  >
+                    <i className="fa fa-caret-left"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         ) : (
           <div

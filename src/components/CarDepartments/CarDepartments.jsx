@@ -27,6 +27,10 @@ const FAQs = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.car_departments"));
+    document.title = t("sidenav.car_departments");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

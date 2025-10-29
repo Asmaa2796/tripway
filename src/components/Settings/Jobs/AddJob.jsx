@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { addJob, clearState } from "../../../redux/Slices/JobsSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchCompanyManagements } from "../../../redux/Slices/CompanyManagementsSlice";
 const AddFileArchiveTypes = () => {
@@ -18,6 +18,10 @@ const AddFileArchiveTypes = () => {
   });
   useEffect(() => {
     setTitle(`${t("sidenav.jobs")} > ${t("labels.addJob")}`);
+    document.title = `${t("sidenav.jobs")} > ${t("labels.addJob")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { isLoading, error, success } = useSelector(
@@ -70,6 +74,19 @@ const AddFileArchiveTypes = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/job_company_managements"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

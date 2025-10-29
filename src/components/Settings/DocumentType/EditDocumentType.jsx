@@ -8,7 +8,7 @@ import {
   updateDocumentType,
 } from "../../../redux/Slices//DocumentTypeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 const EditDocumentType = () => {
   const { t, i18n } = useTranslation("global");
@@ -22,6 +22,10 @@ const EditDocumentType = () => {
   });
   useEffect(() => {
     setTitle(`${t("sidenav.documentType")} > ${t('labels.edit')}`);
+    document.title = `${t("sidenav.documentType")} > ${t('labels.edit')}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { record, isLoading, error, success } = useSelector(
@@ -76,6 +80,19 @@ const EditDocumentType = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/document_type"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

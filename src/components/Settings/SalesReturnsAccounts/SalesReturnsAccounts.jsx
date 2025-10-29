@@ -23,6 +23,10 @@ const SalesReturnsAccounts = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.sales_returns_accounts"));
+    document.title = t("sidenav.sales_returns_accounts");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

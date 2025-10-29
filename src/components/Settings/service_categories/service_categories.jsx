@@ -18,6 +18,10 @@ const ServiceCategories = () => {
   const { setTitle } = useTitle();
   useEffect(() => {
     setTitle(t("labels.serviceCategories"));
+    document.title = t("labels.serviceCategories");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const { byType, deleted, isLoading, error, pagination } = useSelector(
     (state) => state.servicesCategories

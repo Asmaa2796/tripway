@@ -8,7 +8,7 @@ import {
   clearState,
 } from "../../../redux/Slices/GoodTypesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchCarDepartment } from "../../../redux/Slices/ServiceTypesSlice";
 import { fetchLoadTypes } from "../../../redux/Slices/LoadTypesSlice";
 import Select from "react-select";
@@ -36,9 +36,13 @@ const EditGoodTypes = () => {
   );
   useEffect(() => {
     setTitle(`${t("sidenav.goodTypes")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.goodTypes")} > ${t("labels.edit")}`;
     dispatch(fetchCarDepartment());
     dispatch(fetchLoadTypes());
     dispatch(goodTypesRecord(id));
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language, dispatch]);
   useEffect(() => {
     if (record) {
@@ -106,6 +110,16 @@ const EditGoodTypes = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/good_types" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

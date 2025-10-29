@@ -2,10 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCompensation,clearState ,fetchRecord} from "../../../redux/Slices/CompensationCategoriesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useTitle } from "../../../context/TitleContext";
 function Editcompensation_categories() {
   const { t, i18n } = useTranslation("global");
+   const {setTitle} = useTitle();
+    useEffect(() => {
+      setTitle(`${t("sidenav.compensationCategories")} > ${t("labels.edit")}`);
+      document.title = `${t("sidenav.compensationCategories")} > ${t(
+        "labels.edit"
+      )}`;
+      return () => {
+        document.title = "Tripway | تريپ واي";
+      };
+    }, [setTitle, t, i18n.language]);
   const {id} = useParams();
   const dispatch = useDispatch();
    const [formData, setFormData] = useState({
@@ -56,6 +67,20 @@ function Editcompensation_categories() {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/compensation_categories"
+          className="btn btn-dark btn-sm text-white"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <div>
       <h5 className="my-3" style={{ fontWeight: "bold" }}>
         {t("labels.addNewServiceCategory")}
@@ -95,6 +120,7 @@ function Editcompensation_categories() {
         </div>
       </form>
     </div>
+    </>
   );
 }
 

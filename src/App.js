@@ -14,6 +14,7 @@ import ExportOrders from "./components/exportOrders/ExportOrders";
 import Favourites from "./components/favourites/Favourites";
 import Branches from "./components/branches/Branches";
 import EditBranch from "./components/branches/EditBranch";
+import AddBranch from "./components/branches/AddBranch";
 import ViewBranch from "./components/branches/ViewBranch";
 import Vendors from "./components/vendors/Vendors";
 import AddVendor from "./components/vendors/AddVendor";
@@ -71,6 +72,7 @@ import RentalReports from "./components/mainRentals/RentalReports";
 import AddRentalContract from "./components/mainRentals/AddRentalContract";
 import TransportDocuments from "./components/transportDocuments/TransportDocuments";
 import PriceOfferRequests from "./components/priceOffers/PriceOfferRequests";
+import CreatePriceOfferRequests from "./components/priceOffers/CreatePriceOfferRequests";
 import ClientOffers from "./components/priceOffers/ClientOffers";
 import ProviderOffers from "./components/priceOffers/ProviderOffers";
 import Profits from "./components/reportsAndStatistics/Profits";
@@ -87,6 +89,7 @@ import TripRequestReport from "./components/reportsAndStatistics/TripRequestRepo
 import PurchaseRequests from "./components/purchaseRequests/PurchaseRequests";
 import InitialPurchaseRequests from "./components/purchaseRequests/InitialPurchaseRequests";
 import Maintenance from "./components/fleetVehiclesManagement/Maintenance";
+import AddMaintenanceRequest from "./components/fleetVehiclesManagement/AddMaintenanceRequest";
 import Fuel from "./components/fleetVehiclesManagement/Fuel";
 import VehicleStatement from "./components/fleetVehiclesManagement/vehicleStatement";
 import SalesInvoices from "./components/invoicesAndDocuments/SalesInvoices";
@@ -208,6 +211,9 @@ import ChartOfAccounts from "./components/accounting/ChartOfAccounts/ChartOfAcco
 import AddChartOfAccounts from "./components/accounting/ChartOfAccounts/AddChartOfAccounts";
 import EditChartOfAccounts from "./components/accounting/ChartOfAccounts/EditChartOfAccounts";
 import ShowChartOfAccounts from "./components/accounting/ChartOfAccounts/ShowChartOfAccounts";
+import EasyEntries from "./components/accounting/EasyEntries/EasyEntries";
+import AddEasyEntries from "./components/accounting/EasyEntries/AddEasyEntries";
+import EditEasyEntries from "./components/accounting/EasyEntries/EditEasyEntries";
 
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
@@ -325,6 +331,10 @@ function App() {
                 path="price_offer_requests"
                 element={<PriceOfferRequests />}
               />
+              <Route
+                path="create_price_offer_request"
+                element={<CreatePriceOfferRequests />}
+              />
               <Route path="client_offers" element={<ClientOffers />} />
               <Route path="provider_offers" element={<ProviderOffers />} />
               <Route path="profits" element={<Profits />} />
@@ -359,6 +369,7 @@ function App() {
                 element={<InitialPurchaseRequests />}
               />
               <Route path="maintenance" element={<Maintenance />} />
+              <Route path="add_maintenance_request" element={<AddMaintenanceRequest />} />
               <Route path="fuel" element={<Fuel />} />
               <Route path="vehicle_statement" element={<VehicleStatement />} />
               <Route path="sales_invoices" element={<SalesInvoices />} />
@@ -511,7 +522,6 @@ function App() {
                 path="initial_purchase_requests"
                 element={<InitialPurchaseRequests />}
               />
-              <Route path="maintenance" element={<Maintenance />} />
               <Route path="fuel" element={<Fuel />} />
               <Route path="vehicle_statement" element={<VehicleStatement />} />
               <Route path="sales_invoices" element={<SalesInvoices />} />
@@ -591,17 +601,6 @@ function App() {
 
               <Route path="favourites" element={<Favourites />} />
 
-              <Route path="branches" element={<Branches />} />
-              <Route path="branches/edit_branch/:id" element={<EditBranch />} />
-              <Route path="branches/view_branch/:id" element={<ViewBranch />} />
-
-              <Route path="vendors" element={<Vendors />} />
-              <Route path="vendors/add_vendor" element={<AddVendor />} />
-              <Route
-                path="vendors/edit_supplier/:id"
-                element={<EditSupplier />}
-              />
-
               <Route path="ratings" element={<Ratings />} />
 
               <Route path="user_permissions" element={<UserPermissions />} />
@@ -650,10 +649,10 @@ function App() {
               <Route path="countries/add_country" element={<AddCountries />} />
               <Route path="region" element={<ShowRegion />} />
               <Route path="region/edit_region/:id" element={<EditRegion />} />
-              <Route path="vendors" element={<Vendors />} />
-              <Route path="vendors/add_vendor" element={<AddVendor />} />
+              <Route path="suppliers" element={<Vendors />} />
+              <Route path="suppliers/add_supplier" element={<AddVendor />} />
               <Route
-                path="vendors/edit_supplier/:id"
+                path="suppliers/edit_supplier/:id"
                 element={<EditSupplier />}
               />
               <Route path="faqs" element={<Faqs />} />
@@ -761,11 +760,11 @@ function App() {
                 element={<FleetManagementTypes />}
               />
               <Route
-                path="add_fleet_request_type"
+                path="add_fleet_management_type"
                 element={<AddFleetRequest />}
               />
               <Route
-                path="edit_fleet_request_type/:id"
+                path="edit_fleet_management_type/:id"
                 element={<EditFleetRequest />}
               />
               <Route
@@ -852,6 +851,13 @@ function App() {
               <Route path="add_chart_accounts" element={<AddChartOfAccounts />} />
               <Route path="edit_chart_accounts/:id" element={<EditChartOfAccounts />} />
               <Route path="show_chart_accounts/:id" element={<ShowChartOfAccounts />} />
+              <Route path="easy_entries" element={<EasyEntries />} />
+              <Route path="add_easy_entries" element={<AddEasyEntries />} />
+              <Route path="edit_easy_entries/:id" element={<EditEasyEntries />} />
+              <Route path="tripway_branches" element={<Branches />} />
+              <Route path="add_tripway_branch" element={<AddBranch />} />
+              <Route path="edit_tripway_branch/:id" element={<EditBranch />} />
+              <Route path="show_tripway_branch/:id" element={<ViewBranch />} />
             </Route>
             {/* <Route path="register" element={<Register />} /> */}
             <Route path="login" element={<Login />} />

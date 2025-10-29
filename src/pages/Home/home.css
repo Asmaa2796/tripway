@@ -72,7 +72,7 @@
 .canvasjs-chart-tooltip {
   direction: rtl !important;
   unicode-bidi: embed;
-  font-family: 'Montserrat',sans-serif !important;
+  font-family: 'Janna',sans-serif !important;
 }
 .recharts-label-list text {fill: none;}
 .recharts-cartesian-axis-tick-value {font-size: 13px;font-weight: bold;}
@@ -149,7 +149,13 @@
   padding: 13px;
 }
 .circle_chart b {font-size: 11px;}
-.circle_chart b,.circle_chart h5{white-space: nowrap;margin-block: 4px;margin-right: 10px;}
+.circle_chart b,.circle_chart h5
+{
+  white-space: nowrap;
+  margin-block: 4px;
+  margin-right: 10px;
+  font-family: 'Janna',sans-serif !important;
+}
 .chart-text {
   display: flex;
   align-items: center;

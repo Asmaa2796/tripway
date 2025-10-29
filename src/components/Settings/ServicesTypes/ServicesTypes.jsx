@@ -27,6 +27,10 @@ const FAQs = () => {
 
   useEffect(() => {
     setTitle(t("labels.servicesTypes"));
+    document.title = t("labels.servicesTypes");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

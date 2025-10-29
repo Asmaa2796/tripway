@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBank,getBank, clearState } from "../../redux/Slices/BanksSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditBank = () => {
   const { t, i18n } = useTranslation("global");
@@ -29,6 +29,10 @@ const EditBank = () => {
   const { isLoading, error, success,record } = useSelector((state) => state.banks); 
   useEffect(() => {
     setTitle(`${t("sidenav.banks")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.banks")} > ${t("labels.edit")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     if(record) {
@@ -98,140 +102,156 @@ const EditBank = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-      <div className="row align-items-center">
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.nameArabic")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_ar"
-            value={formData.name_ar}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.nameEnglish")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_en"
-            value={formData.name_en}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.account_name_ar")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="account_name_ar"
-            value={formData.account_name_ar}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.account_name_en")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="account_name_en"
-            value={formData.account_name_en}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.account_number")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="account_number"
-            value={formData.account_number}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.bank_code")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="bank_code"
-            value={formData.bank_code}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.IBANNumber")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="iban"
-            value={formData.iban}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-          <div className="d-flex align-items-center">
-            <label className="fw-bold">{t("labels.withdraw")}</label>
-          <div className="form-check form-switch mx-2">
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/banks" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.nameArabic")}</label>
             <input
-              className="form-check-input no-class"
-              type="checkbox"
-              id="withdrawalSwitch"
-              name="withdrawal"
-              checked={formData.withdrawal === 1}
+              type="text"
+              className="input-bg"
+              name="name_ar"
+              value={formData.name_ar}
               onChange={handleChange}
+              required
             />
           </div>
-          </div>
-        </div>
-
-        <div className="col-xl-6 col-lg-6 col-md-12 col-12">
-        <div className="d-flex align-items-center">
-          <label className="fw-bold">{t("labels.deposit")}</label>
-          <div className="form-check form-switch mx-2">
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.nameEnglish")}</label>
             <input
-              className="form-check-input no-class"
-              type="checkbox"
-              id="depositSwitch"
-              name="deposit"
-              checked={formData.deposit === 1}
+              type="text"
+              className="input-bg"
+              name="name_en"
+              value={formData.name_en}
               onChange={handleChange}
+              required
             />
           </div>
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.account_name_ar")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="account_name_ar"
+              value={formData.account_name_ar}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.account_name_en")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="account_name_en"
+              value={formData.account_name_en}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.account_number")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="account_number"
+              value={formData.account_number}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.bank_code")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="bank_code"
+              value={formData.bank_code}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.IBANNumber")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="iban"
+              value={formData.iban}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <div className="d-flex align-items-center">
+              <label className="fw-bold">{t("labels.withdraw")}</label>
+              <div className="form-check form-switch mx-2">
+                <input
+                  className="form-check-input no-class"
+                  type="checkbox"
+                  id="withdrawalSwitch"
+                  name="withdrawal"
+                  checked={formData.withdrawal === 1}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <div className="d-flex align-items-center">
+              <label className="fw-bold">{t("labels.deposit")}</label>
+              <div className="form-check form-switch mx-2">
+                <input
+                  className="form-check-input no-class"
+                  type="checkbox"
+                  id="depositSwitch"
+                  name="deposit"
+                  checked={formData.deposit === 1}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+            <label className="fw-bold">{t("labels.logo")}</label>
+            <input
+              type="file"
+              className="border-0"
+              name="logo"
+              accept="image/*"
+              onChange={handleChangeFile}
+            />
+            <img
+              src={record?.logo || "/img/placeholder.jpg"}
+              className="d-inline-block mx-2"
+              style={{ width: "60px", height: "60px", objectFit: "cover" }}
+            />
           </div>
         </div>
 
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-          <label className="fw-bold">{t("labels.logo")}</label>
-          <input
-            type="file"
-            className="border-0"
-            name="logo"
-            accept="image/*"
-            onChange={handleChangeFile}
-          />
-          <img src={record?.logo || "/img/placeholder.jpg"} className="d-inline-block mx-2" style={{width:"60px",height:"60px",objectFit:"cover"}}/>
+        <div className="text-center mt-3">
+          <button className="btn show_all" disabled={isLoading}>
+            {isLoading ? t("labels.loading") : t("labels.save")}
+          </button>
         </div>
-      </div>
-
-      <div className="text-center mt-3">
-        <button className="btn show_all" disabled={isLoading}>
-          {isLoading ? t("labels.loading") : t("labels.save")}
-        </button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ import {
   clearState,
 } from "../../../redux/Slices/FleetManagementTypesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 const EditFleetRequest = () => {
   const { t, i18n } = useTranslation("global");
@@ -23,6 +23,10 @@ const EditFleetRequest = () => {
   });
   useEffect(() => {
     setTitle(t("labels.editFleetRequestType"));
+    document.title = t("labels.editFleetRequestType");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { record, isLoading, error, success } = useSelector(
@@ -74,6 +78,16 @@ const EditFleetRequest = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+     <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/fleet_management_types" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

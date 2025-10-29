@@ -7,7 +7,7 @@ import {
   clearState,
 } from "../../../redux/Slices/PurchaseReturnsAccountsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddPurchaseReturnsAccounts = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -23,6 +23,10 @@ const AddPurchaseReturnsAccounts = () => {
   );
   useEffect(() => {
     setTitle(t("sidenav.add_purchase_returns_accounts"));
+    document.title = t("sidenav.add_purchase_returns_accounts");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +63,19 @@ const AddPurchaseReturnsAccounts = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/purchase_returns_accounts"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

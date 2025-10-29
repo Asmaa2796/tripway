@@ -3,11 +3,11 @@ import { useTitle } from "../../../context/TitleContext";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addChartAccounts,fetchChartAccounts,
+  addChartAccounts,fetchChartAccounts,fetchMainAccount,
   clearState,
 } from "../../../redux/Slices/ChartAccountsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddChartOfAccounts = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -27,12 +27,17 @@ const AddChartOfAccounts = () => {
     activation_type: "customize", // select tag and label customize or all
     sub_account: "undefined", // select 'undefined','business_sector','individual_customers','owner','provider','purchase_supplier','fleet_suppliers','leasing_suppliers','employees','maintenance_types','fuel_types','winch_branches'
   });
-  const { chart_accounts,isLoading, error, success } = useSelector(
+  const { isLoading,main_account, error, success } = useSelector(
     (state) => state.chart_accounts
   );
   useEffect(() => {
     setTitle(`${t("sidenav.chartOfAccounts")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.chartOfAccounts")} > ${t("btns.add")}`;
     dispatch(fetchChartAccounts());
+    dispatch(fetchMainAccount());
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
   const { name, value, type, checked } = e.target;
@@ -57,7 +62,6 @@ const AddChartOfAccounts = () => {
   });
 };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(clearState());
@@ -81,6 +85,16 @@ const AddChartOfAccounts = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+            <Link to="/chart_of_accounts" className="btn btn-dark btn-sm text-white">
+              {t("btns.back")}{" "}
+              <i
+                className={`bi bi-arrow-${
+                  i18n.language === "ar" ? "left" : "right"
+                } text-xs`}
+              ></i>
+            </Link>
+          </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -146,8 +160,8 @@ const AddChartOfAccounts = () => {
               onChange={handleChange}
             >
               <option value="" disabled>{t("labels.selectItem")}</option>
-              {chart_accounts && chart_accounts.length > 0 && (
-                chart_accounts.map((opt,index) => <option value={opt?.id} key={opt?.id || index}>{opt?.name}</option>)
+              {main_account && main_account.length > 0 && (
+                main_account.map((opt,index) => <option value={opt?.id} key={opt?.id || index}>{opt?.name}</option>)
               ) }
             </select>
           </div>

@@ -47,6 +47,10 @@ const AttachmentsType = () => {
 
   useEffect(() => {
     setTitle(t("labels.attachments"));
+    document.title = t("labels.attachments");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

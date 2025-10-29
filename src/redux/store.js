@@ -39,6 +39,8 @@ import MainSettingsSlice from "./Slices/MainSettingsSlice";
 import FurnitureQuestionsSlice from "./Slices/FurnitureQuestionsSlice"; 
 import CategoryRushHoursSlice from "./Slices/CategoryRushHoursSlice"; 
 import ChartAccountsSlice from "./Slices/ChartAccountsSlice"; 
+import EasyEntriesSlice from "./Slices/EasyEntriesSlice"; 
+import TripwayBranchesSlice from "./Slices/TripwayBranchesSlice"; 
 
 const store = configureStore({
   reducer: {
@@ -81,7 +83,9 @@ const store = configureStore({
     main_settings:MainSettingsSlice,
     furniture_questions:FurnitureQuestionsSlice,
     category_rush_hours:CategoryRushHoursSlice,
-    chart_accounts:ChartAccountsSlice
+    chart_accounts:ChartAccountsSlice,
+    easy_entries:EasyEntriesSlice,
+    tripway_branches:TripwayBranchesSlice
   },
 });
 

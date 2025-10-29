@@ -60,6 +60,10 @@ const filteredClients = clients?.data?.filter((client) => {
 
   useEffect(() => {
     setTitle(t("sidenav.individualClients"));
+    document.title = t("sidenav.individualClients");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     dispatch(clearState());

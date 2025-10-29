@@ -16,6 +16,10 @@ const ShowChartOfAccounts = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.chartOfAccounts")} > ${t("labels.view")}`);
+    document.title = `${t("sidenav.chartOfAccounts")} > ${t("labels.view")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   useEffect(() => {
     dispatch(chartAccountsRecord(id));
@@ -86,183 +90,209 @@ const ShowChartOfAccounts = () => {
     }
   }, [treeData]);
   return (
-    <div style={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
-      {isLoading ? (
-        <div className="div-bg"><NestedList/></div>
-      ) : (
-        <div className="div-bg">
-          <h5 className="fw-bold text-md my-3">
-            {" "}
-            <i
-              className={`text-sm bi main-color ${
-                i18n.language === "ar"
-                  ? "bi-caret-left-fill"
-                  : "bi-caret-right-fill"
-              }`}
-            ></i>{" "}
-            {t("labels.account_info")}
-          </h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.account_code")}</span>
-                <span>{record?.code}</span>
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/chart_of_accounts"
+          className="btn btn-dark btn-sm text-white"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <div style={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
+        {isLoading ? (
+          <div className="div-bg">
+            <NestedList />
+          </div>
+        ) : record ? (
+          <div className="div-bg">
+            <h5 className="fw-bold text-md my-3">
+              {" "}
+              <i
+                className={`text-sm bi main-color ${
+                  i18n.language === "ar"
+                    ? "bi-caret-left-fill"
+                    : "bi-caret-right-fill"
+                }`}
+              ></i>{" "}
+              {t("labels.account_info")}
+            </h5>
+            <div className="row">
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.account_code")}</span>
+                  <span>{record?.code}</span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.account_name")}</span>
-                <span className="text-color">
-                  {i18n.language === "ar" ? record?.name_ar : record?.name_en}
-                </span>
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.account_name")}</span>
+                  <span className="text-color">
+                    {i18n.language === "ar" ? record?.name_ar : record?.name_en}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.mainAccount")}</span>
-                <span className="text-color">
-                  {record?.parent_name || "--"}
-                </span>
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.mainAccount")}</span>
+                  <span className="text-color">
+                    {record?.parent_name || "--"}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.natureAccount")}</span>
-                <span className="text-color">
-                  {t(`labels.${natureAccountKey(record?.natutre_account)}`)}
-                </span>
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.natureAccount")}</span>
+                  <span className="text-color">
+                    {t(`labels.${natureAccountKey(record?.natutre_account)}`)}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.accountType")}</span>
-                <span className="text-color">
-                  {t(`labels.${accountTypeKey(record?.account_type)}`)}
-                </span>
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.accountType")}</span>
+                  <span className="text-color">
+                    {t(`labels.${accountTypeKey(record?.account_type)}`)}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.currentBalance")}</span>
-                <span className="highlight-text">
-                  {record?.balance || "--"}
-                </span>
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.currentBalance")}</span>
+                  <span className="highlight-text">
+                    {record?.balance || "--"}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.acceptPayments")}</span>
-                <span
-                  className={`${
-                    record?.accept_payments === false
-                      ? "text-danger"
-                      : "text-success"
-                  }`}
+              <div className="col-xl-4 col-lg-4 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.acceptPayments")}</span>
+                  <span
+                    className={`${
+                      record?.accept_payments === false
+                        ? "text-danger"
+                        : "text-success"
+                    }`}
+                  >
+                    {record?.accept_payments === false ? (
+                      <i className="bi bi-x-circle-fill"></i>
+                    ) : (
+                      <i className="bi bi-check-circle-fill"></i>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="col-xl-8 col-lg-8 col-md-12 col-12">
+                <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
+                  <span>{t("labels.account_desc")}</span>
+                  <span>
+                    {i18n.language === "ar" ? record?.desc_ar : record?.desc_en}
+                  </span>
+                </div>
+              </div>
+              <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+                <hr />
+              </div>
+              <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+                <div
+                  ref={containerRef}
+                  style={{
+                    padding: "20px",
+                    width: "100%",
+                    height: "80vh",
+                    direction: i18n.language === "ar" ? "rtl" : "ltr",
+                    border: "1px solid #eee",
+                    borderRadius: 12,
+                  }}
                 >
-                  {record?.accept_payments === false ? (
-                    <i className="bi bi-x-circle-fill"></i>
-                  ) : (
-                    <i className="bi bi-check-circle-fill"></i>
-                  )}
-                </span>
-              </div>
-            </div>
-            <div className="col-xl-8 col-lg-8 col-md-12 col-12">
-              <div className="bg-light my-2 text-sm px-3 py-4 border rounded-2 d-flex justify-content-between align-items-center">
-                <span>{t("labels.account_desc")}</span>
-                <span>
-                  {i18n.language === "ar" ? record?.desc_ar : record?.desc_en}
-                </span>
-              </div>
-            </div>
-            <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-              <hr />
-            </div>
-            <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-              <div
-                ref={containerRef}
-                style={{
-                  padding: "20px",
-                  width: "100%",
-                  height: "80vh",
-                  direction: i18n.language === "ar" ? "rtl" : "ltr",
-                  border: "1px solid #eee",
-                  borderRadius: 12,
-                }}
-              >
-                {treeData && (
-                  <Tree
-                    data={treeData}
-                    orientation="vertical"
-                    nodeSize={{ x: 220, y: 120 }}
-                    translate={translate}
-                    renderCustomNodeElement={({ nodeDatum }) => {
-                      const depth = nodeDatum.__rd3t?.depth ?? 0;
-                      const isRoot = depth === 0;
-                      const isParent =
-                        nodeDatum.children && nodeDatum.children.length > 0;
+                  {treeData && (
+                    <Tree
+                      data={treeData}
+                      orientation="vertical"
+                      nodeSize={{ x: 220, y: 120 }}
+                      translate={translate}
+                      renderCustomNodeElement={({ nodeDatum }) => {
+                        const depth = nodeDatum.__rd3t?.depth ?? 0;
+                        const isRoot = depth === 0;
+                        const isParent =
+                          nodeDatum.children && nodeDatum.children.length > 0;
 
-                      // background colors
-                      let bgColor = "#25a86b"; // child = green
-                      if (isParent) bgColor = "#1e8fd4"; // parent = blue
-                      if (isRoot) bgColor = "#daac22"; // root = yellow
+                        // background colors
+                        let bgColor = "#25a86b"; // child = green
+                        if (isParent) bgColor = "#1e8fd4"; // parent = blue
+                        if (isRoot) bgColor = "#daac22"; // root = yellow
 
-                      return (
-                        <g style={{ cursor: "pointer" }}>
-                          <rect
-                            rx={10}
-                            ry={10}
-                            width={180}
-                            height={40}
-                            x={-90}
-                            y={-20}
-                            fill={bgColor}
-                            stroke="#ccc"
-                          />
-                          <foreignObject
-                            x={-90}
-                            y={-20}
-                            width={180}
-                            height={40}
-                          >
-                            <div
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
+                        return (
+                          <g style={{ cursor: "pointer" }}>
+                            <rect
+                              rx={10}
+                              ry={10}
+                              width={180}
+                              height={40}
+                              x={-90}
+                              y={-20}
+                              fill={bgColor}
+                              stroke="#ccc"
+                            />
+                            <foreignObject
+                              x={-90}
+                              y={-20}
+                              width={180}
+                              height={40}
                             >
-                              <Link
-                                to={`/show_chart_accounts/${
-                                  nodeDatum.attributes?.id ?? nodeDatum.id
-                                }`}
+                              <div
                                 style={{
-                                  color: "white",
                                   width: "100%",
-                                  textAlign: "center",
-                                  textDecoration: "none",
-                                  display: "block",
-                                  fontSize: "12px",
-                                  fontWeight: "normal",
+                                  height: "100%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
                                 }}
                               >
-                                {nodeDatum.name}
-                              </Link>
-                            </div>
-                          </foreignObject>
-                        </g>
-                      );
-                    }}
-                  />
-                )}
+                                <Link
+                                  to={`/show_chart_accounts/${
+                                    nodeDatum.attributes?.id ?? nodeDatum.id
+                                  }`}
+                                  style={{
+                                    color: "white",
+                                    width: "100%",
+                                    textAlign: "center",
+                                    textDecoration: "none",
+                                    display: "block",
+                                    fontSize: "12px",
+                                    fontWeight: "normal",
+                                  }}
+                                >
+                                  {nodeDatum.name}
+                                </Link>
+                              </div>
+                            </foreignObject>
+                          </g>
+                        );
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="div-bg">
+            <div
+              className="no_data text-center rounded my-2 p-3"
+              style={{ backgroundColor: "#569a8b" }}
+            >
+              <h5 className="my-2 text-md text-white">{t("labels.noData")}</h5>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

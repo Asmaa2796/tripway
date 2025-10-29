@@ -48,6 +48,10 @@ const Vendors = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.purchaseSuppliers"));
+    document.title = t("sidenav.purchaseSuppliers");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -135,7 +139,7 @@ const Vendors = () => {
           </div>
 
           <div className="col-xl-3 col-lg-3 col-md-6 col-12 text-center mt-2">
-            <Link to="add_vendor">
+            <Link to="add_supplier">
               <span
                 className="btn btn-success btn-sm text-sm px-3"
                 style={{

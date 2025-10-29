@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addfaqs, clearState } from "../../redux/Slices/FAQsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddFAQs = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -19,6 +19,10 @@ const AddFAQs = () => {
   const { isLoading, error, success } = useSelector((state) => state.faqs);
   useEffect(() => {
     setTitle(`${t("sidenav.faqs")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.faqs")} > ${t("btns.add")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +60,16 @@ const AddFAQs = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/faqs" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

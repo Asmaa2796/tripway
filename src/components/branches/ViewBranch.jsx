@@ -1,384 +1,287 @@
 import React, { useEffect } from "react";
 import { useTitle } from "../../context/TitleContext";
+import { useTranslation } from "react-i18next";
+import { FaCodeBranch } from "react-icons/fa";
 import "./branches.css";
-import { useTranslation } from 'react-i18next';
-const ViewBranch = () => {
-  const {t,i18n} = useTranslation('global');
-  const { setTitle } = useTitle();
+import { tripwayBranchesRecord } from "../../redux/Slices/TripwayBranchesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import NestedList from "../../pages/NestedLoader";
 
+const ViewBranch = () => {
+  const { t, i18n } = useTranslation("global");
+  const { id } = useParams();
+  const { setTitle } = useTitle();
+  const dispatch = useDispatch();
+  const { isLoading, record } = useSelector((state) => state.tripway_branches);
   useEffect(() => {
-    setTitle(`${t('labels.winchBranches')} > ${t('labels.winchBranchDetails')}`);
-  }, [setTitle, t, i18n.language]);
+    setTitle(
+      `${t("labels.winchBranches")} > ${t("labels.winchBranchDetails")}`
+    );
+    document.title = `${t("labels.winchBranches")} > ${t("labels.winchBranchDetails")}`;
+    dispatch(tripwayBranchesRecord(id));
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [setTitle, t, i18n.language, dispatch, id]);
   return (
-    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
       {/* view */}
-      <div className="view">
-        <div className="div-bg my-3">
-          <h5 className="text-lighter text-md mb-4">{t('labels.branchInfo')}</h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter">
-                <span className="d-block text-custom my-1 text-lighter">
-                  WB3
-                </span>
-                <span className="d-block text-custom my-1 text-lighter">
-                  {t('labels.winchRental')}
-                </span>
+      {isLoading ? (
+        <div className="div-bg">
+          <NestedList />
+        </div>
+      ) : (
+        <div className="view">
+          <div className="div-bg my-3">
+            <h5 className="text-lighter text-md fw-bold mb-4">
+              <FaCodeBranch className="main-color" /> {t("labels.branchInfo")}
+            </h5>
+            <div className="row">
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter">
+                  <span className="d-block text-custom my-1">
+                    {t("labels.code")} :{" "}
+                    <span className="highlight-text">{record?.code}</span>
+                  </span>
+                  <span className="d-block text-custom my-2">
+                    {t("labels.nameArabic")} : {record?.name_ar}
+                  </span>
+                  <span className="d-block text-custom my-2">
+                    {t("labels.nameEnglish")} : {record?.name_en}
+                  </span>
+                </div>
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.status")} :
+                  </span>
+                  <span
+                    className={`d-block text-custom ${
+                      record?.status === true ? "highlight-green" : "text-color"
+                    }`}
+                  >
+                    {record?.status === true
+                      ? t("labels.active")
+                      : t("labels.inactive")}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.status')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.active')}</span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.tripway_fleet")} :
+                  </span>
+                  <span
+                    className={`d-block text-custom ${
+                      record?.winch_fleet === true
+                        ? "highlight-green"
+                        : "text-color"
+                    }`}
+                  >
+                    {record?.winch_fleet === true
+                      ? t("labels.active")
+                      : t("labels.inactive")}
+                  </span>
+                </div>
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.tripway_leasing")} :
+                  </span>
+                  <span
+                    className={`d-block text-custom ${
+                      record?.winch_leasing === true
+                        ? "highlight-green"
+                        : "text-color"
+                    }`}
+                  >
+                    {record?.winch_leasing === true
+                      ? t("labels.active")
+                      : t("labels.inactive")}
+                  </span>
+                </div>
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.tripway_main")} :
+                  </span>
+                  <span
+                    className={`d-block text-custom ${
+                      record?.winch_main === true
+                        ? "highlight-green"
+                        : "text-color"
+                    }`}
+                  >
+                    {record?.winch_main === true
+                      ? t("labels.active")
+                      : t("labels.inactive")}
+                  </span>
+                </div>
               </div>
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom my-1 text-lighter">
-                  {t('labels.creationDate')} :
-                </span>
-                <span
-                  className="d-block text-custom my-1 text-lighter"
-                  style={{ direction: "ltr" }}
-                >
-                  03:39 PM 02/01/2025
-                </span>
+              <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+                <br />
+                <br />
               </div>
-            </div>
-            <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-              <br />
-              <br />
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.paymentMethod')} :
-                </span>
-                <span className="d-block text-custom text-lighter">{t('labels.cash')}</span>
+
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.purchasesAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    {record?.cost_sales_account_name}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.unbilledTripSales')} :
-                </span>
-                <span className="d-block text-custom text-lighter">
-                  0 - <span className="text-color">{t('labels.view')}</span>
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.payment_method")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    {record?.payment === "cash"
+                      ? t("labels.cash")
+                      : t("labels.postpaid")}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.draftPurchaseBalance')} :
-                </span>
-                <span className="d-block text-custom text-lighter">
-                  0 - <span className="text-color">{t('labels.view')}</span>
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom my-1 text-lighter">
+                    {t("labels.cashAccounts")} :
+                  </span>
+                  <ul className="d-block text-custom my-1 highlight-blue p-0">
+                    {record?.cash_accounts.length > 0
+                      ? record?.cash_accounts.map((account) => (
+                          <li className="my-1" key={account?.id}>
+                            {account?.name}
+                          </li>
+                        ))
+                      : "--"}
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.invoiceIssuanceMethod')} :
-                </span>
-                <span className="d-block text-xs text-lighter">{t('labels.undefined')}</span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom my-1 text-lighter">
+                    {t("labels.bankAccounts")} :
+                  </span>
+                  <ul className="d-block text-custom my-1 highlight-blue p-0">
+                    {record?.bank_accounts.length > 0
+                      ? record?.bank_accounts.map((bank) => (
+                          <li className="my-1" key={bank?.id}>
+                            {bank?.name}
+                          </li>
+                        ))
+                      : "--"}
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.unbilledRentalSales')} :
-                </span>
-                <span className="d-block text-custom text-lighter">
-                  0 - <span className="text-color">{t('labels.view')}</span>
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.customerPenaltiesAccounts")} :
+                  </span>
+                  <span className="d-block text-custom">
+                    <span className="highlight-blue">
+                      {record?.customer_penalties_account_name}
+                    </span>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.totalBalance')} :
-                </span>
-                <span
-                  className="d-block text-custom"
-                  style={{ color: "#7ba946" }}
-                >
-                  358.821.69
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.supplierPenaltiesAccounts")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    <span>{record?.supplier_penalties_account_name}</span>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.paymentAfterInvoice')} :
-                </span>
-                <span className="d-block text-xs text-lighter">{t('labels.undefined')}</span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.earnedDiscountAccount")} :
+                  </span>
+                  <span className="d-block highlight-blue text-custom">
+                    {record?.earned_discount_account_name}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.unbilledPurchaseRentals')} :
-                </span>
-                <span
-                  className="d-block text-custom"
-                  style={{ color: "#7ba946" }}
-                >
-                  358.821.69
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.internalSalesCostAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    <span>{record?.internal_cost_sales_account_name}</span>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.dueSalesBalance')} :
-                </span>
-                <span className="d-block text-xs text-lighter">{t('labels.undefined')}</span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.internalSalesAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    {record?.internal_sales_account_name}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.currentBalance')} :
-                </span>
-                <span className="d-block text-custom">
-                  <span style={{ color: "#7ba946" }}>358.821.69</span> -{" "}
-                  <span className="text-color">{t('labels.view')}</span>
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.purchaseReturnsAccount")} :
+                  </span>
+                  <span className="d-block highlight-blue text-custom">
+                    {record?.purchase_return_account_name}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.draftSalesBalance')} :
-                </span>
-                <span className="d-block text-custom text-lighter">
-                  0 - <span className="text-color">{t('labels.view')}</span>
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.relatedPartiesAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    {record?.realted_parties_account_name}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                  {t('labels.duePurchaseBalance')} :
-                </span>
-                <span
-                  className="d-block text-custom"
-                  style={{ color: "#7ba946" }}
-                >
-                  358.821.69
-                </span>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.salesDiscountAccounts")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    {record?.sales_discount_account_name}
+                  </span>
+                </div>
+              </div>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.salesAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    <span>{record?.sales_name}</span>
+                  </span>
+                </div>
+              </div>
+              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
+                <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
+                  <span className="d-block text-custom text-lighter">
+                    {t("labels.salesReturnsAccount")} :
+                  </span>
+                  <span className="d-block text-custom highlight-blue">
+                    <span>{record?.sales_return_name}</span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="div-bg my-3">
-          <h5 className="text-lighter text-md mb-4">{t('labels.rentalRequests')}</h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.rentalRequests')}
-                </span>
-                <span className="d-block text-custom text-lighter">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.rentalProjects')} :
-                </span>
-                <span className="d-block text-custom text-lighter">1</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.rentalContracts')} :
-                </span>
-                <span className="d-block text-custom text-lighter">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="div-bg my-3">
-          <h5 className="text-lighter text-md mb-4">{t('labels.invoices')}</h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.issueGroupedTripPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.issueGroupedRentalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.issueGroupedRentalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.issueManualInternalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.issueManualInternalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.totalInternalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.dueInternalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.undueInternalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.draftInternalSales')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.totalInternalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">1</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.dueInternalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">1</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.undueInternalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                {t('labels.draftInternalPurchases')} :
-                </span>
-                <span className="d-block text-custom text-color">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="div-bg my-3">
-          <h5 className="text-lighter text-md mb-4">{t('labels.internalVouchers')}</h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.issueReceiptVoucher')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.issuePaymentVoucher')} :
-                </span>
-                <span className="d-block text-custom text-color">{t('labels.issue')}</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.receiptVouchers')} :
-                </span>
-                <span className="d-block text-custom text-lighter">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.paymentVouchers')} :
-                </span>
-                <span className="d-block text-custom text-lighter">1</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="div-bg my-3">
-          <h5 className="text-lighter text-md mb-4">{t('labels.accountingReports')}</h5>
-          <div className="row">
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.issueClientStatement')} :
-                </span>
-                <span className="d-block text-custom text-lighter">0</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.issueAdminStatement')} :
-                </span>
-                <span className="d-block text-custom text-lighter">1</span>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-12">
-              <div className="input-bg my-2 px-3 py-2 rounded border-lighter d-flex justify-content-between align-items-center">
-                <span className="d-block text-custom text-lighter">
-                 {t('labels.clientBalance')} :
-                </span>
-                <span className="d-block text-custom text-lighter">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 

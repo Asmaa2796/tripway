@@ -8,7 +8,7 @@ import {
   getClients,
 } from "../../redux/Slices/ClientsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchCountries } from "../../redux/Slices/CountriesSlice";
 import { fetchCities } from "../../redux/Slices/CitiesSlice";
@@ -120,6 +120,10 @@ const EditClient = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.individualClients")} > ${t("labels.edit")}`);
+    document.title = `${t('sidenav.individualClients')} > ${t('labels.edit')}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -187,6 +191,11 @@ const EditClient = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{textAlign:i18n.language === "ar"?"left":"right"}}>
+        <Link to="/clients" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")} <i className={`bi bi-arrow-${i18n.language === "ar"?"left":"right"} text-xs`}></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         className="table_form form-style my-3 py-3 div-bg"

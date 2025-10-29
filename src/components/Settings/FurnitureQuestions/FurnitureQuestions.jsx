@@ -36,6 +36,10 @@ const paginatedData = filteredData.slice(
 
   useEffect(() => {
     setTitle(t("sidenav.furniture_questions"));
+    document.title = t("sidenav.furniture_questions");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const search = () => {

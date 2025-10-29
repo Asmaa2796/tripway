@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addPosition, clearState } from "../../../redux/Slices/PositionsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddPositions = () => {
   const { t, i18n } = useTranslation("global");
@@ -21,6 +21,10 @@ const AddPositions = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.ClientPosition")} > ${t("labels.addPosition")}`);
+    document.title = `${t("sidenav.ClientPosition")} > ${t("labels.addPosition")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -42,7 +46,7 @@ const AddPositions = () => {
       toast.success(t("labels.addedSuccessfully"), {
         onClose: () => {
           dispatch(clearState());
-          navigate("/positions");
+          navigate("/Positions");
         },
       });
     }
@@ -55,40 +59,53 @@ const AddPositions = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-      <div className="row align-items-center">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
-          <label>{t("labels.nameArabic")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_ar"
-            value={formData.name_ar}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
-          <label>{t("labels.nameEnglish")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_en"
-            value={formData.name_en}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <>
+      
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/Positions" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
       </div>
-      <div className="text-center">
-        <button className="btn show_all" disabled={isLoading}>
-          {isLoading ? t("labels.loading") : t("btns.add")}
-        </button>
-      </div>
-    </form>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
+            <label>{t("labels.nameArabic")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_ar"
+              value={formData.name_ar}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
+            <label>{t("labels.nameEnglish")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_en"
+              value={formData.name_en}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+        <div className="text-center">
+          <button className="btn show_all" disabled={isLoading}>
+            {isLoading ? t("labels.loading") : t("btns.add")}
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 

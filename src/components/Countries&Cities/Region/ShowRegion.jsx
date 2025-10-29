@@ -22,6 +22,10 @@ const ShowRegion = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.regions"));
+    document.title = t("sidenav.regions");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const [currentPage, setCurrentPage] = useState(1);

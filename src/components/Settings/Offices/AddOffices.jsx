@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { clearState } from "../../../redux/Slices/PositionsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addOffice } from "../../../redux/Slices/OfficesSlice";
 
 const AddOffices = () => {
@@ -23,6 +23,10 @@ const AddOffices = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.Offices")} > ${t("labels.addOffice")}`);
+    document.title = `${t("sidenav.Offices")} > ${t("labels.addOffice")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -64,53 +68,65 @@ const AddOffices = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-      <div className="row align-items-center">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
-          <label className="fw-bold">{t("labels.nameArabic")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_ar"
-            value={formData.name_ar}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
-          <label className="fw-bold">{t("labels.nameEnglish")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_en"
-            value={formData.name_en}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12 ">
-          <label>{t("labels.status")}</label>
-          <label className="toggle">
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/Offices" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
+            <label className="fw-bold">{t("labels.nameArabic")}</label>
             <input
-              className="toggle-checkbox"
-              type="checkbox"
-              checked={formData.status === "1"}
-              onChange={handleToggle}
+              type="text"
+              className="input-bg"
+              name="name_ar"
+              value={formData.name_ar}
+              onChange={handleChange}
+              required
             />
-            <div className="toggle-switch"></div>
-            <span className="toggle-label"></span>
-          </label>
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12 mb-3">
+            <label className="fw-bold">{t("labels.nameEnglish")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_en"
+              value={formData.name_en}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12 ">
+            <label>{t("labels.status")}</label>
+            <label className="toggle">
+              <input
+                className="toggle-checkbox"
+                type="checkbox"
+                checked={formData.status === "1"}
+                onChange={handleToggle}
+              />
+              <div className="toggle-switch"></div>
+              <span className="toggle-label"></span>
+            </label>
+          </div>
         </div>
-      </div>
-      <div className="text-center mb-3">
-        <button className="btn show_all" disabled={isLoading}>
-          {isLoading ? t("labels.loading") : t("btns.add")}
-        </button>
-      </div>
-    </form>
+        <div className="text-center mb-3">
+          <button className="btn show_all" disabled={isLoading}>
+            {isLoading ? t("labels.loading") : t("btns.add")}
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 

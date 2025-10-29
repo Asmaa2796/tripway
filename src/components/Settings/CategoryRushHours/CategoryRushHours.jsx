@@ -25,6 +25,10 @@ const FAQs = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.category_rush_hours"));
+    document.title = t("sidenav.category_rush_hours");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

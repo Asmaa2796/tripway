@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addRegion, clearState } from "../../../redux/Slices/RegionSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddRegion = () => {
   const { t, i18n } = useTranslation("global");
@@ -21,6 +21,10 @@ const AddRegion = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.regions")} > ${t("labels.addRegion")}`);
+    document.title = `${t("sidenav.regions")} > ${t("labels.addRegion")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -60,6 +64,16 @@ const AddRegion = () => {
 
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/regions" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

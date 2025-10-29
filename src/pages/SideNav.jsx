@@ -116,16 +116,21 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
         </li>
         <li
           className={`${
-            currentPath === "/branches"
+            currentPath === "/tripway_branches"
               ? "active"
               : "" ||
-                currentPath.startsWith("/branches/view_branch") ||
-                currentPath.startsWith("/branches/edit_branch")
+            currentPath === "/add_tripway_branch"
+              ? "active"
+              : "" ||
+                currentPath.startsWith("/edit_tripway_branch")
+              ? "active"
+              : "" ||
+                currentPath.startsWith("/show_tripway_branch")
               ? "active"
               : ""
           }`}
         >
-          <Link to="branches" onClick={handleLinkClick}>
+          <Link to="tripway_branches" onClick={handleLinkClick}>
             <span className="text-gray">
               <FaCodeBranch />
               {t("sidenav.winchBranches")}
@@ -135,16 +140,16 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
 
         <li
           className={`${
-            currentPath === "/vendors"
+            currentPath === "/suppliers"
               ? "active"
-              : "" || currentPath === "/vendors/add_vendor"
+              : "" || currentPath === "/suppliers/add_supplier"
               ? "active"
-              : "" || currentPath.startsWith("/vendors/edit_supplier")
+              : "" || currentPath.startsWith("/suppliers/edit_supplier")
               ? "active"
               : ""
           }`}
         >
-          <Link to="vendors" onClick={handleLinkClick}>
+          <Link to="suppliers" onClick={handleLinkClick}>
             <span className="text-gray">
               <AiFillDollarCircle />
               {t("sidenav.purchaseSuppliers")}
@@ -183,6 +188,10 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
               : "" || currentPath === "/business_sector/business_docs"
               ? "active"
               : "" || currentPath === "/business_sector/add"
+              ? "active"
+              : "" || currentPath.startsWith("/business_sector/edit")
+              ? "active"
+              : "" || currentPath.startsWith("/business_sector/view")
               ? "active"
               : ""
           }`}
@@ -480,6 +489,10 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
             currentPath === "/bank_accounts"
               ? "active"
               : "" || currentPath === "/banks"
+              ? "active"
+              : "" || currentPath === "/add_bank"
+              ? "active"
+              : "" || currentPath.startsWith("/edit_bank")
               ? "active"
               : ""
           }`}
@@ -873,6 +886,8 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
             currentPath === "/price_offer_requests"
               ? "active"
               : "" || currentPath === "/client_offers"
+              ? "active"
+              : "" || currentPath === "/create_price_offer_request"
               ? "active"
               : "" || currentPath === "/provider_offers"
               ? "active"
@@ -1434,6 +1449,9 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
             currentPath === "/add_chart_accounts" ||
             currentPath.startsWith("/edit_chart_accounts") ||
             currentPath.startsWith("/show_chart_accounts") ||
+            currentPath === "/easy_entries" ||
+            currentPath === "/add_easy_entries" ||
+            currentPath.startsWith("/edit_easy_entries") ||
             currentPath === "/manual_entries" ||
             currentPath === "/cost_center_accounts" ||
             currentPath === "/financial_years"
@@ -1466,6 +1484,19 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
             </li>
             <li>
               <Link
+                to="easy_entries"
+                onClick={handleLinkClick}
+                className="dropdown-item"
+              >
+                <i
+                  className="bi bi-caret-left"
+                  style={{ marginLeft: "2px" }}
+                ></i>
+                {t("sidenav.easyEntries")}
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="manual_entries"
                 onClick={handleLinkClick}
                 className="dropdown-item"
@@ -1477,7 +1508,6 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
                 {t("sidenav.manualEntries")}
               </Link>
             </li>
-
             <li>
               <Link
                 to="cost_center_accounts"
@@ -2031,7 +2061,7 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
               "/positions/add_position",
               "/offices",
               "/offices/add_office",
-              "/add_fleet_request_type",
+              "/add_fleet_management_type",
               "/add_file_archive_types",
               "/file_archive_types",
               "/vehicle_companies",
@@ -2077,6 +2107,7 @@ const SideNav = ({ isOpen, toggleSideNav }) => {
             currentPath.startsWith("/edit_related_party_accounts") ||
             currentPath.startsWith("/edit_purchases_accounts") ||
             currentPath.startsWith("/edit_purchase_returns_accounts") ||
+            currentPath.startsWith("/edit_fleet_management_type") ||
             currentPath.startsWith("/edit_sales_account") ||
             currentPath.startsWith("/edit_services_types") ||
             currentPath.startsWith("/edit_quotation_features") ||

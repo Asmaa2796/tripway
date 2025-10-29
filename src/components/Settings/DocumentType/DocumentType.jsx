@@ -31,6 +31,10 @@ const DocumentType = () => {
   );
   useEffect(() => {
     setTitle(t("sidenav.documentType"));
+    document.title = t("sidenav.documentType");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -56,7 +60,6 @@ const DocumentType = () => {
             className="btn btn-success btn-sm text-sm px-3"
             style={{
               background: "var(--green-color)",
-              marginTop: "45px",
               fontWeight: "bold",
               fontSize: "14px",
             }}

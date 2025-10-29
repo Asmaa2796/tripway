@@ -9,7 +9,7 @@ import {
   updateSupplier,
 } from "../../redux/Slices/SuppliersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 const EditSupplier = () => {
@@ -29,6 +29,10 @@ const EditSupplier = () => {
   });
   useEffect(() => {
     setTitle(`${t("labels.purchaseSuppliers")} > ${t("labels.editSupplier")}`);
+    document.title = `${t("labels.purchaseSuppliers")} > ${t("labels.editSupplier")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { supplier, isLoading, error, success } = useSelector(
@@ -98,7 +102,7 @@ const EditSupplier = () => {
     if (success) {
       toast.success(t("labels.updatedSuccessfully"), {
         onClose: () => {
-          navigate("/vendors");
+          navigate("/suppliers");
         },
       });
     }
@@ -116,6 +120,11 @@ const EditSupplier = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+    <div style={{textAlign:i18n.language === "ar"?"left":"right"}}>
+            <Link to="/suppliers" className="btn btn-dark btn-sm text-white">
+              {t("btns.back")} <i className={`bi bi-arrow-${i18n.language === "ar"?"left":"right"} text-xs`}></i>
+            </Link>
+          </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

@@ -8,7 +8,7 @@ import {
   updateOffice,
 } from "../../../redux/Slices/OfficesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditOffices = () => {
   const { id } = useParams();
@@ -38,6 +38,10 @@ const EditOffices = () => {
   }, [selectedOffice]);
   useEffect(() => {
     setTitle(`${t("sidenav.Offices")} > ${t("sidenav.editOffice")}`);
+    document.title = `${t("sidenav.Offices")} > ${t("sidenav.editOffice")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -80,6 +84,17 @@ const EditOffices = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/Offices" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <form
       onSubmit={handleSubmit}
       className="table_form form-style my-3 p-3 rounded bg-white"
@@ -128,6 +143,7 @@ const EditOffices = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

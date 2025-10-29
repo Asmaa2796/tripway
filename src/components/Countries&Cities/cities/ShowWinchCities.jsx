@@ -21,7 +21,11 @@ const ShowWinchCities = () => {
     useSelector((state) => state.cities);
 
   useEffect(() => {
-    setTitle(t("sidenav.cities"));
+    setTitle(t("sidenav.citiesWinch"));
+    document.title = t("sidenav.citiesWinch");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const [currentPage, setCurrentPage] = useState(1);

@@ -8,6 +8,7 @@
   --basic-color: #fff;
   --highlight-color: #F2205B;
   --highlight-green: #7ba946;
+  --highlight-blue: #2858b4;
   --text-lighter: #333;
   --btn1-color: linear-gradient(90deg, #8824C2 0%, #F00488 100%);
   --btn2-color: linear-gradient(90deg, #FF6A00 0%, #F01414 100%);
@@ -93,6 +94,7 @@ a {
   color: var(--highlight-color) !important;
 }
 .highlight-green {color: var(--highlight-green) !important;}
+.highlight-blue {color: var(--highlight-blue) !important;}
 .text-gray {
   color: #777;
 }
@@ -158,8 +160,44 @@ select {
   color: var(--green-color);
   border: 1px solid var(--green-color);
 }
-
-
+.file_wrapper {
+  position: relative;
+    background-color: var(--basic-color);
+    border: 2px solid var(--green-color);
+    border-radius: 5px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .2);
+}
+.file_wrapper input {
+  background-color: aliceblue;
+  opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    cursor: pointer;
+}
+.file_wrapper label {
+  background-color: var(--basic-color);
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--green-color);
+    cursor: pointer;
+    font-weight: bold;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 .shadow-sm {
   box-shadow: 0 .325rem .58rem rgba(0, 0, 0, 0.171) !important;
 }
@@ -195,6 +233,48 @@ select {
 .file--upload>label {
   color: var(--main-color) !important;
 }
+.delete_file {
+ position: absolute;
+    top: -10px;
+    left: -8px;
+    margin: 0 !important;
+    background-color: #ca4040 !important;
+    height: 20px;
+    width: 20px;
+    border-radius: 50% !important;
+    color: var(--basic-color) !important;
+}
+[dir='ltr'] .delete_file {right: -8px;left: unset;}
+/* handle pagination scroll */
+.pagination {
+  display: flex;
+  flex-wrap: nowrap; /* prevent wrapping */
+  overflow-x: auto;  /* enable horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+  scrollbar-width: thin; /* Firefox */
+  padding-block: 10px !important;
+}
+
+.pagination::-webkit-scrollbar {
+  height: 6px; /* horizontal scrollbar size */
+}
+
+.pagination::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 3px;
+}
+
+.page-item {
+  flex: 0 0 auto; /* keep each item fixed size, don't shrink */
+}
+.custom-tooltip {
+  background-color: #000 !important; 
+  color: #fff !important; 
+  font-weight: normal !important;  
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
 /* upload_photo */
 .upload_photo {
       position: relative;

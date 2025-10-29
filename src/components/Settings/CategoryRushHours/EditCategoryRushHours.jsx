@@ -6,7 +6,7 @@ import {
   clearState,
 } from "../../../redux/Slices/CategoryRushHoursSlice";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "../../../context/TitleContext";
@@ -19,6 +19,10 @@ const EditCategoryRushHours = () => {
   useEffect(() => {
     setTitle(`${t("sidenav.category_rush_hours")} > ${t("labels.edit")}`);
     dispatch(categoryRushHoursRecord(id));
+    document.title = `${t("sidenav.category_rush_hours")} > ${t("labels.edit")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const [formData, setFormData] = useState({ days: [] });
   const { isLoading, success, record, error } = useSelector(
@@ -127,6 +131,20 @@ const EditCategoryRushHours = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+            <Link
+              to="/category_rush_hours"
+              className="btn btn-dark btn-sm text-white mb-2"
+            >
+              {t("btns.back")}{" "}
+              <i
+                className={`bi bi-arrow-${
+                  i18n.language === "ar" ? "left" : "right"
+                } text-xs`}
+              ></i>
+            </Link>
+          </div>
     <div className="form-style">
       <form onSubmit={handleUpdateCategory} className="bg-white p-4 rounded">
         <h5 className="fw-bold text-md">
@@ -204,6 +222,7 @@ const EditCategoryRushHours = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

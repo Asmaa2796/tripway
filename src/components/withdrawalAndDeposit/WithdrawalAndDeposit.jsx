@@ -74,7 +74,7 @@ const Banks = () => {
                   {t('labels.status')} 
                 </th>
                 <th scope="col" className="text-lighter">
-                  {t('labels.createddBy')} 
+                  {t('labels.createdBy')} 
                 </th>
                 <th scope="col" className="text-lighter">
                   {t('labels.actionTakenBy')} 

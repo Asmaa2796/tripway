@@ -29,7 +29,11 @@ const OrderIssueTypes = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.orderIssueTypes"));
-  }, [setTitle, t]);
+    document.title = t("sidenav.orderIssueTypes");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [setTitle, t,i18n.language]);
 
   useEffect(() => {
     dispatch(clearState());
@@ -205,7 +209,8 @@ const currentData = dataArray.slice(
           )}
         </div>
 
-        {/* Pagination */}
+      </div>
+       {/* Pagination */}
         {totalPages > 1 && (
           <nav aria-label="Page navigation">
             <ul className="pagination">
@@ -220,7 +225,7 @@ const currentData = dataArray.slice(
                     setCurrentPage((prev) => Math.max(prev - 1, 1));
                   }}
                 >
-                  <i className="fa fa-caret-left"></i>
+                  <i className="fa fa-caret-right"></i>
                 </a>
               </li>
 
@@ -260,13 +265,12 @@ const currentData = dataArray.slice(
                     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
                   }}
                 >
-                  <i className="fa fa-caret-right"></i>
+                  <i className="fa fa-caret-left"></i>
                 </a>
               </li>
             </ul>
           </nav>
         )}
-      </div>
     </>
   );
 };

@@ -25,6 +25,43 @@ export const fetchChartAccounts = createAsyncThunk(
     }
   }
 );
+// all archived chart accounts
+export const fetchArchivedChartAccounts = createAsyncThunk(
+  "chart_accounts/archived",
+  async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/chart-accounts/deleted`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Lang: i18n.language,
+        },
+      });
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Failed load data";
+      return message;
+    }
+  }
+);
+export const fetchMainAccount = createAsyncThunk(
+  "chart_accounts/fetchMainAccount",
+  async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/settings/main-account`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Lang: i18n.language,
+        },
+      });
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Failed load data";
+      return message;
+    }
+  }
+);
 
 // add chart accounts
 export const addChartAccounts = createAsyncThunk(
@@ -33,6 +70,54 @@ export const addChartAccounts = createAsyncThunk(
     try {
       const response = await axios.post(
         `${BASE_URL}/chart-accounts/store`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+            Lang: i18n.language,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "An unknown error occurred";
+      return rejectWithValue(message);
+    }
+  }
+);
+// add create sub account
+export const createSubAccount = createAsyncThunk(
+  "chart_accounts/createSubAccount",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/chart-accounts/create-sub`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+            Lang: i18n.language,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "An unknown error occurred";
+      return rejectWithValue(message);
+    }
+  }
+);
+// move account
+export const moveAccount = createAsyncThunk(
+  "chart_accounts/moveAccount",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/chart-accounts/move`,
         userData,
         {
           headers: {
@@ -110,19 +195,59 @@ export const deleteChartAccounts = createAsyncThunk(
     }
   }
 );
+export const restoreRecord = createAsyncThunk(
+  "chart_accounts/restoreRecord",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/chart-accounts/restore`,
+        { account_id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+            Lang: i18n.language,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        message: error.response?.data?.message || "restore failed",
+      });
+    }
+  }
+);
 const ChartAccountsSlice = createSlice({
   name: "chart_accounts",
   initialState: {
     chart_accounts: [],
+    main_account: [],
+    archived: [],
     record: null,
     isLoading: false,
     error: null,
     success: null,
+    errorSub: null,
+    successSub: null,
+    errorMove: null,
+    successMove: null,
+    // delete
+  deleteSuccess: null,
+  deleteError: null,
+
+  // restore
+  restoreSuccess: null,
+  restoreError: null,
   },
   reducers: {
     clearState: (state) => {
       state.error = null;
       state.success = null;
+      state.errorSub = null;
+      state.successSub = null;
+      state.errorMove = null;
+      state.successMove = null;
     },
   },
   extraReducers: (builder) => {
@@ -139,6 +264,30 @@ const ChartAccountsSlice = createSlice({
         state.isLoading = false;
         state.error = action.error?.message || "Failed to load data";
       })
+      .addCase(fetchArchivedChartAccounts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchArchivedChartAccounts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.archived = action.payload;
+      })
+      .addCase(fetchArchivedChartAccounts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error?.message || "Failed to load data";
+      })
+      .addCase(fetchMainAccount.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchMainAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.main_account = action.payload;
+      })
+      .addCase(fetchMainAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error?.message || "Failed to load data";
+      })
       .addCase(addChartAccounts.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -150,6 +299,30 @@ const ChartAccountsSlice = createSlice({
       .addCase(addChartAccounts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to add data";
+      })
+      .addCase(createSubAccount.pending, (state) => {
+        state.isLoading = true;
+        state.errorSub = null;
+      })
+      .addCase(createSubAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.successSub = true;
+      })
+      .addCase(createSubAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorSub = true || "Failed to add data";
+      })
+      .addCase(moveAccount.pending, (state) => {
+        state.isLoading = true;
+        state.errorMove = null;
+      })
+      .addCase(moveAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.successMove = true;
+      })
+      .addCase(moveAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorMove = true || "Failed to move data";
       })
       .addCase(chartAccountsRecord.pending, (state) => {
         state.isLoading = true;
@@ -189,15 +362,28 @@ const ChartAccountsSlice = createSlice({
           (record) => record.id !== action.meta.arg
         );
 
-        state.success = action.payload?.message || "Deleted successfully";
+        state.deleteSuccess = action.payload?.message || "Deleted successfully";
       })
       .addCase(deleteChartAccounts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error =
+        state.deleteError =
           action.payload?.message ||
           action.payload ||
           action.error?.message ||
           "Failed to delete chart accounts";
+      })
+      // restore
+      .addCase(restoreRecord.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(restoreRecord.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.restoreSuccess = action.payload.message;
+      })
+      .addCase(restoreRecord.rejected, (state, action) => {
+        state.isLoading = false;
+        state.restoreError = action.payload.message;
       });
   },
 });

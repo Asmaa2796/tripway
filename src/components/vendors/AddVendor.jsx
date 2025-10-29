@@ -6,7 +6,7 @@ import "./vendors.css";
 // import PhoneInput from "./PhoneInput";
 import { addSupplier, clearState } from "../../redux/Slices/SuppliersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 const AddVendor = () => {
@@ -27,6 +27,10 @@ const AddVendor = () => {
     setTitle(
       `${t("labels.purchaseSuppliers")} > ${t("labels.addPurchaseSupplier")}`
     );
+    document.title = `${t("labels.purchaseSuppliers")} > ${t("labels.addPurchaseSupplier")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { isLoading, error, success } = useSelector((state) => state.suppliers);
@@ -76,7 +80,7 @@ const AddVendor = () => {
   useEffect(() => {
   if (success) {
     toast.success(t("labels.addedSuccessfully"), {
-      onClose: () => navigate("/vendors"),
+      onClose: () => navigate("/suppliers"),
     });
   }
 
@@ -96,6 +100,11 @@ const AddVendor = () => {
 
   return (
     <>
+    <div style={{textAlign:i18n.language === "ar"?"left":"right"}}>
+        <Link to="/suppliers" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")} <i className={`bi bi-arrow-${i18n.language === "ar"?"left":"right"} text-xs`}></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

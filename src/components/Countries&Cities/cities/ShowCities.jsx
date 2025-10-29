@@ -22,6 +22,10 @@ const ShowCities = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.cities"));
+    document.title = t("sidenav.cities");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const [currentPage, setCurrentPage] = useState(1);

@@ -42,7 +42,11 @@ const OfficeDocumentType = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.officeDocumentType"));
-  }, [setTitle, t]);
+    document.title = t("sidenav.officeDocumentType");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [setTitle, t,i18n.language]);
 
   useEffect(() => {
     dispatch(clearState());

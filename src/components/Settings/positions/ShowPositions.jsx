@@ -23,8 +23,12 @@ const ShowPositions = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.ClientPosition"));
+    document.title = t("sidenav.ClientPosition");
     dispatch(clearState());
     dispatch(fetchPositions(currentPage));
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [dispatch, setTitle, t, i18n.language, currentPage]);
 
   const handlePageChange = (page) => {

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addQuotationFeatures, clearState } from "../../../redux/Slices/QuotationFeaturesSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import './Q.css';
@@ -27,6 +27,10 @@ const AddQuotationFeatures = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.quotation_features")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.quotation_features")} > ${t("btns.add")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -69,6 +73,19 @@ const AddQuotationFeatures = () => {
 
   return (
     <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/quotation_features"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

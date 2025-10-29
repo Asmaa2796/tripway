@@ -9,7 +9,7 @@ import {
 } from "../../../redux/Slices/PurchasesAccountsSlice";
 
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditPurchasesAccounts = () => {
   const { id } = useParams();
@@ -35,7 +35,11 @@ const EditPurchasesAccounts = () => {
   // Set page title (updates on language change)
   useEffect(() => {
     setTitle(t("sidenav.edit_purchases_accounts"));
-  }, [t]);
+    document.title = t("sidenav.edit_purchases_accounts");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [t,setTitle,i18n.language]);
 
   // Fetch management record on first load only
   useEffect(() => {
@@ -71,6 +75,20 @@ const EditPurchasesAccounts = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/purchases_accounts"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <form
       onSubmit={handleSubmit}
       className="table_form form-style my-3 p-3 rounded bg-white"
@@ -120,6 +138,7 @@ const EditPurchasesAccounts = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

@@ -52,7 +52,11 @@ const GoodTypes = () => {
   // Set page title
   useEffect(() => {
     setTitle(t("sidenav.goodTypes"));
+    document.title = t("sidenav.goodTypes");
     dispatch(fetchCarDepartment());
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language, dispatch]);
 
   // Fetch good types

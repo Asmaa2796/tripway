@@ -80,8 +80,12 @@ const EditMainSettings = () => {
   const { banks } = useSelector((state) => state.banks);
   useEffect(() => {
     setTitle(`${t("sidenav.main_settings")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.main_settings")} > ${t("labels.edit")}`;
     dispatch(fetchSettings());
     dispatch(fetchBanks());
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language, id]);
 
   useEffect(() => {

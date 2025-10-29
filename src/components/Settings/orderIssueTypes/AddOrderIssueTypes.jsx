@@ -7,7 +7,7 @@ import {
   clearState,
 } from "../../../redux/Slices/OrderIssueTypesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const AddOrderIssueTypes = () => {
   const { t, i18n } = useTranslation("global");
@@ -19,6 +19,10 @@ const AddOrderIssueTypes = () => {
   });
   useEffect(() => {
     setTitle(`${t("sidenav.orderIssueTypes")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.orderIssueTypes")} > ${t("btns.add")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { isLoading, error, success } = useSelector((state) => state.order_issue_types);
@@ -57,6 +61,19 @@ const AddOrderIssueTypes = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link
+          to="/order_issue_types"
+          className="btn btn-dark btn-sm text-white mb-2"
+        >
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -88,8 +105,8 @@ const AddOrderIssueTypes = () => {
 
           <div className="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
             <button className="btn show_all" disabled={isLoading}>
-           {isLoading ? t("labels.loading") : t("btns.add")}
-          </button>
+              {isLoading ? t("labels.loading") : t("btns.add")}
+            </button>
           </div>
         </div>
       </form>

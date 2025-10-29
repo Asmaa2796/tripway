@@ -19,6 +19,10 @@ const CompensationCategories = () => {
   const { setTitle } = useTitle();
   useEffect(() => {
     setTitle(t("sidenav.compensationCategories"));
+    document.title = t("sidenav.compensationCategories");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const dispatch = useDispatch();
   const { approved, waiting, deleted, success, loading, error, pagination } =

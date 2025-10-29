@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { updateLoadTypes,loadTypesRecord, clearState } from "../../../redux/Slices/LoadTypesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const EditLoadTypes = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -18,7 +18,11 @@ const EditLoadTypes = () => {
   const { isLoading, error, success,record } = useSelector((state) => state.loadTypes);
   useEffect(() => {
     setTitle(`${t("sidenav.loadTypes")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.loadTypes")} > ${t("labels.edit")}`;
     dispatch(loadTypesRecord(id));
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language,id]);
   useEffect(() => {
    if(record) {
@@ -59,6 +63,16 @@ const EditLoadTypes = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/load_types" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -87,12 +101,11 @@ const EditLoadTypes = () => {
               required
             />
           </div>
-          
         </div>
 
         <div className="text-center">
           <button className="btn show_all" disabled={isLoading}>
-           {isLoading ? t("labels.loading") : t("btns.save")}
+            {isLoading ? t("labels.loading") : t("btns.save")}
           </button>
         </div>
       </form>

@@ -1,17 +1,138 @@
-.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {margin-top: 0;}
-.quill_ar .ql-editor {text-align: right;}
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button {
+    margin-top: 0;
+}
+
+.quill_ar .ql-editor {
+    text-align: right;
+}
+
 .quill_ar .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
     left: 0;
     right: unset;
 }
-.quill_ar .ql-editor {font-family: "Janna", sans-serif !important;}
-.quill_en .ql-editor {font-family: "Nunito", sans-serif !important;}
+
+.quill_ar .ql-editor {
+    font-family: "Janna", sans-serif !important;
+}
+
+.quill_en .ql-editor {
+    font-family: "Nunito", sans-serif !important;
+}
+
 .quill_ar .ql-editor ol {
     padding-right: 1.5em;
     padding-left: 0;
 }
-.quill_ar .ql-editor li > .ql-ui:before {
+
+.ql-snow .ql-editing,
+.ql-snow .ql-tooltip {
+    right: 0 !important;
+    left: unset !important;
+}
+
+.ql-snow .ql-tooltip a {
+    display: inline-block;
+}
+
+.quill_ar .ql-editor li>.ql-ui:before {
     display: inline-block;
     margin-right: -1.5em;
     margin-left: .3em;
+}
+
+.ql-snow .ql-tooltip[data-mode=link]::before {
+    content: "أدخل رابط";
+    font-family: 'Janna', sans-serif !important;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+    border-left: 0;
+    content: 'حفظ';
+    font-family: 'Janna', sans-serif !important;
+    padding-left: 0;
+    margin-right: 16px;
+}
+
+.ql-snow .ql-tooltip::before {
+    content: "زيارة الرابط:";
+    line-height: 26px;
+    margin-left: 8px;
+    font-family: 'Janna', sans-serif !important;
+}
+
+.ql-snow .ql-tooltip a.ql-action::after {
+    border-left: 1px solid #ccc;
+    content: 'تعديل';
+    margin-right: 16px;
+    padding-left: 8px;
+    font-family: 'Janna', sans-serif !important;
+}
+
+.ql-snow .ql-tooltip a.ql-remove::before {
+    content: 'حذف';
+    margin-left: 0px;
+    font-family: 'Janna', sans-serif !important;
+}
+
+[dir='ltr'] {
+    .quill_ar .ql-editor {
+        text-align: left;
+    }
+
+    .ql-snow .ql-tooltip a.ql-remove::before {
+        content: 'Remove';
+        margin-left: 8px;
+        margin-right: 0px;
+    }
+
+    .ql-snow .ql-tooltip::before {
+        content: "Visit URL:";
+        line-height: 26px;
+        margin-right: 8px;
+    }
+
+    .ql-snow .ql-tooltip a.ql-action::after {
+        border-left: 1px solid #ccc;
+        content: 'Edit';
+        margin-left: 16px;
+        padding-left: 8px;
+    }
+
+    .ql-snow .ql-tooltip[data-mode=link]::before {
+        content: "Enter link:";
+    }
+
+    .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+        border-right: 0;
+        content: 'Save';
+        padding-right: 0;
+    }
+
+    .ql-tooltip .ql-editing {
+        left: 0;
+        right: unset;
+    }
+
+    .quill_ar .ql-editor {
+        font-family: "Janna", sans-serif !important;
+        text-align: right;
+    }
+
+    .quill_en .ql-editor {
+        font-family: "Nunito", sans-serif !important;
+    }
+
+    .quill_ar .ql-editor ol {
+        padding-right: 1.5em;
+        padding-left: 0;
+    }
+
+    .quill_ar .ql-editor li>.ql-ui:before {
+        display: inline-block;
+        margin-right: -1.5em;
+        margin-left: .3em;
+    }
 }

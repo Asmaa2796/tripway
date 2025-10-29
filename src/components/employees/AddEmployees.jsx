@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { addEmployees, clearState } from "../../redux/Slices/EmployeesSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchAccounts,
   fetchCities,
@@ -110,6 +110,7 @@ const AddEmployees = () => {
   const { isLoading, error, success } = useSelector((state) => state.employees);
   useEffect(() => {
     setTitle(t("labels.add_employees"));
+    document.title = t("labels.add_employees");
     dispatch(fetchAccounts());
     dispatch(fetchCities());
     dispatch(fetchRoles());
@@ -118,6 +119,9 @@ const AddEmployees = () => {
     dispatch(fetchCompanies());
     dispatch(fetchBranches());
     dispatch(fetchJobsByManagement());
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [dispatch, setTitle, t]);
 
   const handleChange = (e) => {
@@ -396,6 +400,16 @@ const AddEmployees = () => {
 
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/employees" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       <ul className="nav nav-tabs mb-4" id="employeeTabs" role="tablist">
         <li className="nav-item" role="presentation">
           <button
@@ -1148,7 +1162,7 @@ const AddEmployees = () => {
         </div>
 
         <div className="text-center">
-           <button className="btn show_all" disabled={isLoading}>
+          <button className="btn show_all" disabled={isLoading}>
             {isLoading ? t("labels.loading") : t("btns.add")}
           </button>
         </div>

@@ -23,6 +23,10 @@ const RelatedPartyAccounts = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.related_party_accounts"));
+    document.title = t("sidenav.related_party_accounts");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

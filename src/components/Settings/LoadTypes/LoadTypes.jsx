@@ -28,6 +28,10 @@ const LoadTypes = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.loadTypes"));
+    document.title = t("sidenav.loadTypes");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
@@ -62,7 +66,6 @@ useEffect(() => {
             className="btn btn-success btn-sm text-sm px-3"
             style={{
               background: "var(--green-color)",
-              marginTop: "45px",
               fontWeight: "bold",
               fontSize: "14px",
             }}

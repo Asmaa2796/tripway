@@ -85,7 +85,8 @@ const PriceOfferRequests = () => {
           <div className="col-xl-4 col-lg-4 col-md-6 col-12 text-center">
             <button className="btn show_result">{t("btns.viewResults")}</button>
             <button className="btn show_all">{t("btns.viewAll")}</button>
-            <button
+            <Link
+              to="/create_price_offer_request"
               type="button"
               className="btn btn-warning btn-sm text-dark text-sm px-3"
               style={{
@@ -96,7 +97,7 @@ const PriceOfferRequests = () => {
              
             >
               {t("labels.createQuotationRequest")}
-            </button>
+            </Link>
           </div>
           
         </div>

@@ -10,7 +10,7 @@ import {
   clearState,
 } from "../../../redux/Slices/ServiceTypesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const EditServicesTypes = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -69,8 +69,12 @@ const EditServicesTypes = () => {
   }, [record]);
   useEffect(() => {
     setTitle(`${t("labels.servicesTypes")} > ${t("labels.edit")}`);
+    document.title = `${t("labels.servicesTypes")} > ${t("labels.edit")}`;
     dispatch(serviceTypesRecord(id));
     dispatch(fetchCarDepartment());
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language, dispatch,id]);
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -136,6 +140,26 @@ const EditServicesTypes = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/AttachmentsType" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/services_types" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}

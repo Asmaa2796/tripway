@@ -37,6 +37,10 @@ const Banks = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.banks"));
+    document.title = t("sidenav.banks");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import {
 } from "../../redux/Slices/FAQsSlice";
 
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditFAQs = () => {
   const { id } = useParams();
@@ -38,7 +38,11 @@ const EditFAQs = () => {
   // Set page title (updates on language change)
   useEffect(() => {
     setTitle(`${t("sidenav.faqs")} > ${t("labels.edit")}`);
-  }, [t]);
+    document.title = `${t("sidenav.faqs")} > ${t("labels.edit")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [t.setTitle,i18n.language]);
 
   // Fetch management record on first load only
   useEffect(() => {
@@ -74,11 +78,22 @@ const EditFAQs = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-       <div className="row align-items-center">
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/faqs" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             <label className="text-light">{t("labels.question_ar")}</label>
             <input
@@ -123,15 +138,15 @@ const EditFAQs = () => {
               required
             />
           </div>
-          
         </div>
 
-      <div className="text-center">
-        <button className="btn show_all" disabled={isLoading}>
+        <div className="text-center">
+          <button className="btn show_all" disabled={isLoading}>
             {isLoading ? t("labels.loading") : t("btns.save")}
           </button>
-      </div>
-    </form>
+        </div>
+      </form>
+    </>
   );
 };
 

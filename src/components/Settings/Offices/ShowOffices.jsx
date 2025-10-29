@@ -27,8 +27,12 @@ const ShowOffices = () => {
 
   useEffect(() => {
     setTitle(t("sidenav.Offices"));
+    document.title = t("sidenav.Offices");
     dispatch(clearState());
     dispatch(fetchOffices(currentPage));
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [dispatch, setTitle, t, i18n.language, currentPage]);
 
   const handlePageChange = (page) => {

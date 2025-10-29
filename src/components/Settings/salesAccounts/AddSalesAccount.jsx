@@ -7,7 +7,7 @@ import {
   clearState,
 } from "../../../redux/Slices/SalesAccountsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddSalesAccount = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -23,6 +23,10 @@ const AddSalesAccount = () => {
   );
   useEffect(() => {
     setTitle(t("sidenav.addSalesAccount"));
+    document.title = t("sidenav.addSalesAccount");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +63,16 @@ const AddSalesAccount = () => {
   }, [success, error, t, dispatch, navigate]);
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/sales_accounts" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       {/* form */}
       <form
         onSubmit={handleSubmit}
@@ -96,9 +110,12 @@ const AddSalesAccount = () => {
               onChange={handleChange}
               required
             >
-                <option value="" disabled> {t('labels.selectItem')} </option>
-                <option value="active"> {t('labels.active')} </option>
-                <option value="inactive"> {t('labels.inactive')} </option>
+              <option value="" disabled>
+                {" "}
+                {t("labels.selectItem")}{" "}
+              </option>
+              <option value="active"> {t("labels.active")} </option>
+              <option value="inactive"> {t("labels.inactive")} </option>
             </select>
           </div>
         </div>

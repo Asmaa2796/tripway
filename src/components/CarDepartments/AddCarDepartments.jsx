@@ -7,7 +7,7 @@ import {
   clearState,
 } from "../../redux/Slices/CarDepartmentsSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const AddCarDepartments = () => {
   const { t, i18n } = useTranslation("global");
   const { setTitle } = useTitle();
@@ -27,6 +27,10 @@ const AddCarDepartments = () => {
 
   useEffect(() => {
     setTitle(`${t("sidenav.car_departments")} > ${t("btns.add")}`);
+    document.title = `${t("sidenav.car_departments")} > ${t("btns.add")}`;
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   const handleChange = (e) => {
@@ -91,6 +95,17 @@ const AddCarDepartments = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
+    <>
+    <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/car_departments" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
     <form
       onSubmit={handleSubmit}
       className="table_form form-style my-3 p-3 rounded bg-white"
@@ -203,6 +218,7 @@ const AddCarDepartments = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

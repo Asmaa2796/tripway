@@ -9,7 +9,7 @@ import {
   updateEmployees,
 } from "../../redux/Slices/EmployeesSlice";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   fetchAccounts,
   fetchCities,
@@ -27,8 +27,12 @@ const EditEmployee = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   useEffect(() => {
-      setTitle(`${t("sidenav.employees")} > ${t("labels.edit")}`);
-    }, [setTitle, t, i18n.language]);
+    setTitle(`${t("sidenav.employees")} > ${t("labels.edit")}`);
+    document.title = `${t("sidenav.employees")} > ${t("labels.edit")}`;
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [setTitle, t, i18n.language]);
   const commonSelectProps = {
     className: "react-select-container",
     classNamePrefix: "react-select",
@@ -594,6 +598,16 @@ const EditEmployee = () => {
 
   return (
     <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/employees" className="btn btn-dark btn-sm text-white">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
       <ul className="nav nav-tabs mb-4" id="employeeTabs" role="tablist">
         <li className="nav-item" role="presentation">
           <button
@@ -1350,7 +1364,7 @@ const EditEmployee = () => {
         </div>
 
         <div className="text-center">
-           <button className="btn show_all" disabled={isLoading}>
+          <button className="btn show_all" disabled={isLoading}>
             {isLoading ? t("labels.loading") : t("btns.save")}
           </button>
         </div>

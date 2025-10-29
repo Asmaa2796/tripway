@@ -9,7 +9,7 @@ import {
 } from "../../../redux/Slices/SalesAccountsSlice";
 
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditSalesAccount = () => {
   const { id } = useParams();
@@ -35,7 +35,11 @@ const EditSalesAccount = () => {
   // Set page title (updates on language change)
   useEffect(() => {
     setTitle(t("sidenav.editSalesAccount"));
-  }, [t]);
+    document.title = t("sidenav.editSalesAccount");
+    return () => {
+      document.title = "Tripway | تريپ واي";
+    };
+  }, [t,setTitle,i18n.language]);
 
   // Fetch management record on first load only
   useEffect(() => {
@@ -71,34 +75,44 @@ const EditSalesAccount = () => {
   }, [success, error, t, dispatch, navigate]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="table_form form-style my-3 p-3 rounded bg-white"
-    >
-      <div className="row align-items-center">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
-          <label className="text-light">{t("sign.name")}</label>
-          <input
-            type="text"
-            className="input-bg"
-            name="name_ar"
-            value={formData.name_ar}
-            onChange={handleChange}
-            placeholder={t('labels.nameArabic')}
-            required
-          />
-           <input
-            type="text"
-            className="input-bg"
-            name="name_en"
-            value={formData.name_en}
-            onChange={handleChange}
-                        placeholder={t('labels.nameEnglish')}
-
-            required
-          />
-        </div>
-        <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+    <>
+      <div style={{ textAlign: i18n.language === "ar" ? "left" : "right" }}>
+        <Link to="/sales_accounts" className="btn btn-dark btn-sm text-white mb-2">
+          {t("btns.back")}{" "}
+          <i
+            className={`bi bi-arrow-${
+              i18n.language === "ar" ? "left" : "right"
+            } text-xs`}
+          ></i>
+        </Link>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="table_form form-style my-3 p-3 rounded bg-white"
+      >
+        <div className="row align-items-center">
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
+            <label className="text-light">{t("sign.name")}</label>
+            <input
+              type="text"
+              className="input-bg"
+              name="name_ar"
+              value={formData.name_ar}
+              onChange={handleChange}
+              placeholder={t("labels.nameArabic")}
+              required
+            />
+            <input
+              type="text"
+              className="input-bg"
+              name="name_en"
+              value={formData.name_en}
+              onChange={handleChange}
+              placeholder={t("labels.nameEnglish")}
+              required
+            />
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             <label className="text-light">{t("labels.status")}</label>
             <select
               className="input-bg w-100"
@@ -107,19 +121,23 @@ const EditSalesAccount = () => {
               onChange={handleChange}
               required
             >
-                <option value="" disabled> {t('labels.selectItem')} </option>
-                <option value="active"> {t('labels.active')} </option>
-                <option value="inactive"> {t('labels.inactive')} </option>
+              <option value="" disabled>
+                {" "}
+                {t("labels.selectItem")}{" "}
+              </option>
+              <option value="active"> {t("labels.active")} </option>
+              <option value="inactive"> {t("labels.inactive")} </option>
             </select>
           </div>
-      </div>
+        </div>
 
-      <div className="text-center">
-        <button className="btn show_all" disabled={isLoading}>
-          {t("btns.saveChanges")}
-        </button>
-      </div>
-    </form>
+        <div className="text-center">
+          <button className="btn show_all" disabled={isLoading}>
+            {t("btns.saveChanges")}
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 

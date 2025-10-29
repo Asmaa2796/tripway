@@ -27,6 +27,10 @@ const QuotationFeatures = () => {
   );
   useEffect(() => {
     setTitle(t("sidenav.quotation_features"));
+    document.title = t("sidenav.quotation_features");
+     return () => {
+      document.title = "Tripway | تريپ واي";
+    };
   }, [setTitle, t, i18n.language]);
 
   useEffect(() => {
